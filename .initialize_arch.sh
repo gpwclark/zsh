@@ -42,7 +42,6 @@ yay -Syu  && yay --noconfirm -S \
         xdotool `# for i3blocks` \
         xorg-xprop `# for i3blocks` \
         light-git `# brightness ctrl for gitj` \
-        eclim `# for vim java` \
         gnome-calculator `#for calculations`
         graphviz `# graph visualization/generations software` \
         strace `# important for tracing system calls in linux`\

@@ -18,6 +18,8 @@
 	cmd = meld "$LOCAL" "$MERGED" "$REMOTE" --output "$MERGED"
 	#cmd = meld "$LOCAL" "$BASE" "$REMOTE" --output "$MERGED"
 [alias]
+	track = ls-tree -r master --name-only
+	track-all = log --pretty=format: --name-only --diff-filter=A | sort - | sed '/^$/d'
     wow = log --pretty=format:\"%h %s\" --graph
     change-commits = "!f() { VAR=$1; OLD=$2; NEW=$3; shift 3; git filter-branch --env-filter \"if [[ $`echo $VAR` = \\\"$OLD\\\" ]]; then export $VAR=\\\"$NEW\\\"; fi\" $@; }; f "
     prom = pull --rebase
