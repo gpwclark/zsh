@@ -2,7 +2,7 @@
 
 #install vim/git
 yay -Syu  && yay --noconfirm -S \
-        vim `#text editor` \
+         vim `#text editor` \
         emacs `#ONLY for clj/cljs development` \
         git `#scm` \
         gradle `#build tool` \
@@ -56,4 +56,7 @@ yay -Syu  && yay --noconfirm -S \
         aspell `# check spelling on the CLI` \
         aspell-en `# spelling dictionary for english`\
         git-crypt `#  Transparent file encryption in Git`\
-        kindd `#  easy to use bootable usb drive creator`
+        kindd `#  easy to use bootable usb drive creator` \
+        smartmontools `# hdd troubleshotting utilities` \
+        xcape `#  configure modifier keys to act as other keys when pressed and released on their own`
+

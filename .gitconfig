@@ -1,6 +1,6 @@
 [user]
-    name = price
-    email = price@eucleo.com
+	name = price
+	email = price@eucleo.com
 [core]
     editor = vim
 	pager = less -x1,5
