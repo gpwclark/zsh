@@ -11,6 +11,7 @@ $if mode=vi
 	"diw": "lbdw"
 	"ciw": "lbcw"
 	set keymap vi-insert
+	"jk": vi-movement-mode
 	"\C-w": backward-kill-word
 	"\C-p": history-search-backward
 $endif
