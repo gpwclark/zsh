@@ -1,15 +1,34 @@
-$include /etc/inputrc
 set editing-mode vi
-set keymap vi
+#set keymap vi
+
+#turn off the stupid bell
+set bell-style none
 $if mode=vi
-set keymap vi-command
-# these are for vi-command mode
-"\e[A":history-search-backward
-"\e[B":history-search-forward
-j:history-search-forward
-k:history-search-backward
-set keymap vi-insert
-# these are for vi-insert mode
-"\e[A":history-search-backward
-"\e[B":history-search-forward
+	set keymap vi-command
+	"gg": beginning-of-history
+	"G": end-of-history
+	"jk": vi-movement-mode
+	"diw": "lbdw"
+	"ciw": "lbcw"
+	set keymap vi-insert
+	"\C-w": backward-kill-word
+	"\C-p": history-search-backward
 $endif
+
+
+#set editing-mode vi
+#$include /etc/inputrc
+#set editing-mode vi
+#set keymap vi
+#$if mode=vi
+#set keymap vi-command
+## these are for vi-command mode
+#"\e[A":history-search-backward
+#"\e[B":history-search-forward
+#j:history-search-forward
+#k:history-search-backward
+#set keymap vi-insert
+# these are for vi-insert mode
+#"\e[A":history-search-backward
+#"\e[B":history-search-forward
+#$endif

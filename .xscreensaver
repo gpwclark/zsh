@@ -1,10 +1,10 @@
 # XScreenSaver Preferences File
-# Written by xscreensaver-demo 5.39 for price on Wed Jun 13 14:37:25 2018.
+# Written by xscreensaver-demo 5.43 for price on Tue Jan 14 15:35:47 2020.
 # https://www.jwz.org/xscreensaver/
 
 timeout:	1:00:00
 cycle:		0:10:00
-lock:		True
+lock:		False
 lockTimeout:	0:10:00
 passwdTimeout:	0:00:05
 visualID:	default
@@ -24,7 +24,7 @@ fadeTicks:	20
 captureStderr:	True
 ignoreUninstalledPrograms:False
 font:		*-medium-r-*-140-*-m-*
-dpmsEnabled:	True
+dpmsEnabled:	False
 dpmsQuickOff:	False
 dpmsStandby:	0:30:00
 dpmsSuspend:	0:45:00
@@ -270,14 +270,20 @@ programs:								      \
 - GL: 				unicrud -root				    \n\
 - GL: 				esper -root				    \n\
 - GL: 				vigilance -root				    \n\
-		     "tvguide" 	mplayer -really-quiet -nosound -nolirc	      \
-				  -nostop-xscreensaver -wid		      \
-				  $XSCREENSAVER_WINDOW -fs -loop 0	      \
-				  $HOME/Media/tvguide.mkv		    \n\
+- GL: 		     "tvguide" 	mplayer -really-quiet -nosound	      \
+				  -nostop-screensaver -nolirc -fs	      \
+				  -loop 0 -wid $XSCREENSAVER_WINDOW	      \
+				  $HOME/Media/tvguide.mp4		    \n\
   GL: 				crumbler -root				    \n\
   GL: 				maze3d -root				    \n\
   GL: 				peepers -root				    \n\
   GL: 				razzledazzle -root			    \n\
+				filmleader -root			    \n\
+				glitchpeg -root				    \n\
+  GL: 				handsy -root				    \n\
+				vfeedback -root				    \n\
+  GL: 				deepstars -root				    \n\
+  GL: 				gravitywell -root			    \n\
 
 
 pointerPollTime:    0:00:05

@@ -6,7 +6,7 @@ mkdir -p ~/bin
 #install vim/git
 pacman -Syu  && pacman --ignore -S \
         vim `#text editor` \
-        emacs `#ONLYL for clj/cljs development` \
+        emacs `#ONLY for clj/cljs development` \
         git `#scm` \
         gradle `#build tool` \
         maven  `#build tool` \
@@ -21,7 +21,7 @@ pacman -Syu  && pacman --ignore -S \
         baobab `#visualize disk space` \
         arandr `# manage screens` \
         ifplugd `#handle connecting to wired interfaces` \
-        xorg-xev `#chewck key combinations` \
+        xorg-xev `#check key combinations` \
         fail2ban `# keep out the bad guys` \
         xorg-server `# should work in conjunction with slim and i3wm seamlessly` \
         konsole `# preferred shell` \
@@ -53,19 +53,25 @@ pacman -Syu  && pacman --ignore -S \
         simplescreenrecorder `# screen recorder` \
         pavucontrol `# for volume control` \
         fzf `# ctrl-r on crack` \
-        scrot `# simple screenshot utility for X`
+        scrot `# simple screenshot utility for X` \
+        lsd `# better ls` \
+		ipcalc `# subnet calcuclator`
 
 #devvim set up
 git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
 git clone https://github.com/syl20bnr/spacemacs ~/.emacs.d
 git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 
+#better terminal
+git clone https://git.suckless.org/st ~/st
+pushd ~/st && sudo make clean install && popd
+
 #leosetup
-git clone git@github.com:leo-editor/leo-editor.git  ~/development/leo-editor
+git clone git@github.com:leo-editor/leo-editor.git  ~/leo-editor
 
 #java repl
 git clone https://github.com/albertlatacz/java-repl ~/bin/java-repl.repo
-cd ~/bin/java-repl.repo && gradle shadowJar
+pushd ~/bin/java-repl.repo && gradle shadowJar && popd
 
 #closh
 NODE_PATH=~/bin/node_modules npm install lumo-cljs closh

@@ -6,12 +6,11 @@
 	pager = less -x1,5
 [diff]
     tool = vimdiff
-[log]
-   abbrevCommit = true
 [alias]
     wow = log --pretty=format:\"%h %s\" --graph
     change-commits = "!f() { VAR=$1; OLD=$2; NEW=$3; shift 3; git filter-branch --env-filter \"if [[ $`echo $VAR` = \\\"$OLD\\\" ]]; then export $VAR=\\\"$NEW\\\"; fi\" $@; }; f "
-    pl = pull --rebase
+    prom = pull --rebase
+    pom = pull
     aa = add --all
     dc = diff --cached
     di = diff
@@ -24,10 +23,12 @@
                 git diff --no-commit-id -r  $1 $2;\
             };f"
     addmod = "!f() {\
-				git status | grep -i modified | cut -d' ' -f 4 | xargs git add;\
+				git status | grep -iE 'modified|deleted' | tr -s '[[:blank:]]' | cut -d' ' -f2 | xargs git add;\
             };f"
-[http]
-	sslVerify = false
+	cara = commit --amend --reset-author
+	graph = log --graph --oneline –decorate=short
+	files = diff-tree --no-commit-id --name-only -r
+	logsha = "log --format=format:\"%C(auto)%H %C(green)%aN%Creset %s\""
 [filter "lfs"]
 	clean = git-lfs clean -- %f
 	smudge = git-lfs smudge -- %f
