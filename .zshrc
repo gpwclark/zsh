@@ -132,8 +132,8 @@ alias :e="vim"
 alias :q!="exit"
 alias :q="exit"
 #alias dockersage='docker run -v ~/development/ipython/Sage:/home/sage -p 127.0.0.1:8080:8080 -i -t sagemath/sage --notebook=ipython --ip='*' --port=8080'
-alias eclimdd='nohup /lib/eclipse/plugins/org.eclim_2.6.0/bin/eclimd &>/dev/null &'
-alias eclimd='/lib/eclipse/plugins/org.eclim_2.6.0/bin/eclimd'
+#alias eclimdd='nohup /lib/eclipse/plugins/org.eclim_2.6.0/bin/eclimd &>/dev/null &'
+#alias eclimd='/lib/eclipse/plugins/org.eclim_2.6.0/bin/eclimd'
 alias setclip='xclip -selection c'
 alias getclip='xclip -selection c -o'
 
@@ -438,10 +438,20 @@ ZSH_HIGHLIGHT_STYLES[history-expansion]='fg=magenta,bold'
 # }}}
 
 # NVM {{{
-[ -z "$NVM_DIR" ] && export NVM_DIR="$HOME/.nvm"
-source /usr/share/nvm/nvm.sh
-source /usr/share/nvm/bash_completion
-source /usr/share/nvm/install-nvm-exec
+#[ -z "$NVM_DIR" ] && export NVM_DIR="$HOME/.nvm"
+#source /usr/share/nvm/nvm.sh
+#source /usr/share/nvm/bash_completion
+#source /usr/share/nvm/install-nvm-exec
+source /usr/share/nvm/init-nvm.sh
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+# }}}
+
+# ANDROID {{{
+export ANDROID_HOME=/opt/android-sdk
+export PATH=$PATH:$ANDROID_HOME/tools
+export PATH=$PATH:$ANDROID_HOME/platform-tools
 # }}}
 
 # env set up {{{
@@ -460,10 +470,8 @@ fi
 
 # }}}
 
+
 # MUST BE LAST LINE {{{
 source /home/price/.zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 # }}}
 
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
