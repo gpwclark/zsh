@@ -1,6 +1,7 @@
 #!/bin/bash
 
 mkdir -p ~/development
+mkdir -p ~/development/sl-sh-dev
 mkdir -p ~/bin
 mkdir -p ~/core
 
@@ -17,7 +18,9 @@ if [[ $? == "0" ]]; then
 fi
 
 # set up shell
-git clone git@github.com:sstanfield/sl-sh
+git clone git@github.com:sl-sh-dev/sl-sh ~/development/sl-sh-dev/sl-sh
+mkdir -p ~/.config/sl-sh/
+ln -s ~/development/sl-sh-dev/sl-sh/contrib/gpwclark/slshrc ~/.config/sl-sh/slshrc
 
 #mr set up
 git clone git@github.com:gpwclark/vcsh_mr.git ~/core/vcsh_mr
