@@ -672,7 +672,7 @@ HISTFILE=~/.zsh_history
 #}}}
 
 # PATH Exports {{{
-export PATH=/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin # Reorder PATH so local bin is first
+export PATH=~/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin # Reorder PATH so local bin is first
 export PATH=$JAVA_HOME/jre/bin:$PATH
 export PATH=$PATH:~/bin
 export PATH=$PATH:~/.local/bin

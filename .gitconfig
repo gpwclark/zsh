@@ -1,6 +1,6 @@
 [user]
-	name = price
-	email = price@eucleo.com
+	name = gpwclark
+	email = gpwclark@gmail.com
 [core]
     editor = vim
 	pager = less -x1,5
@@ -43,8 +43,10 @@
 	branch-activity = "!sh -c 'git log -n1 --pretty=format:\"%aI%d\n\" $1 --' -"
 [filter "lfs"]
 	clean = git-lfs clean -- %f
-	smudge = git-lfs smudge -- %f
-	process = git-lfs filter-process
+	smudge = git-lfs smudge --skip -- %f
+	process = git-lfs filter-process --skip
 	required = true
 [color]
 	ui = auto
+[init]
+	defaultBranch = main
