@@ -5,6 +5,7 @@ pacman --noconfirm -S vim \
         git
         emacs \ #ONLYL for clj/cljs development
         gradle \
+        sl \ #if you can't type correctly, get on the train.
         wget \
         i3-wm \ #window manager
         xscreensaver \ #screensaver
@@ -13,6 +14,7 @@ pacman --noconfirm -S vim \
         arandr \ # manage screens
         rofi \  # dmenu replacement
         ifplugd \ #handle connecting to wired interfaces
+        xev \ #chewck key combinations
 
 
 #devvim set up
