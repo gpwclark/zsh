@@ -1,5 +1,8 @@
 #!/bin/bash
 
+mkdir -p ~/development
+mkdir -p ~/bin
+
 #install vim/git
 pacman -Syu  && pacman --ignore -S \
         vim `#text editor` \
@@ -41,11 +44,24 @@ pacman -Syu  && pacman --ignore -S \
         light-git `# brightness ctrl for gitj` \
         eclim `# for vim java` \
         gnome-calculator `#for calculations`
+        graphviz `# graph visualization/generations software` \
+        strace `# important for tracing system calls in linux`\
+        rlwrap `# important for wrapping cli programs`\
+        thunar `# windowed file browser` \
+        ranger `# cli file browser` \
+        burpsuite `# proxy to intercept things.` \
+        simplescreenrecorder `# screen recorder` \
+        pavucontrol `# for volume control` \
+        fzf `# ctrl-r on crack` \
+        scrot `# simple screenshot utility for X`
 
 #devvim set up
 git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
 git clone https://github.com/syl20bnr/spacemacs ~/.emacs.d
 git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+
+#leosetup
+git clone git@github.com:leo-editor/leo-editor.git  ~/development/leo-editor
 
 #java repl
 git clone https://github.com/albertlatacz/java-repl ~/bin/java-repl.repo
@@ -65,3 +81,6 @@ systemctl --user enable xscreeensaver
 #polish off i3 blocks
 mkdir -p ~/development/clojure/
 git clone https://github.com/gpwclark/deathclock ~/development/clojure/deathclock
+
+# oh my zsh
+sh -c "$(wget https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh -O -)"

@@ -7,19 +7,30 @@ export CLICOLOR=1
 # }}}
 
 # My Custom Config {{{
-#source /usr/share/nvm/init-nvm.sh
+source /usr/share/nvm/init-nvm.sh
 export JAVA_HOME=/lib/jvm/default
+export GRADLE_OPTS=-Dorg.gradle.native=false
 #eval "$(thefuck --alias fuck)"
-setopt nocorrectall #keeps zsh from autocorrecting (letting thefuck do that).
-feh --bg-scale ~/Pictures/prince_rama.png
+setopt nocorrectall #keeps zsh from autocorrecting letting thefuck do that
+feh --bg-scale "$(cd ~/Pictures/bkrd && (find `pwd` -type f | sort -R | head -n 1))"
+#~/Pictures/prince_rama.png
 # }}}
 
 # DIR_COLORS {{{
 eval `/usr/bin/dircolors -b ~/.dircolors`
 alias dir='dir --color'
 alias ls='ls --color=auto'
-export TERM="screen-256color"
+#export TERM="xterm-256color"
 # }}}
+
+# anaconda {{{
+function conda_act() {
+    source /opt/anaconda/bin/activate root
+}
+function conda_deact() {
+    source /opt/anaconda/bin/deactivate root
+}
+#}}}
 
 # Ruby {{{
 function get_ruby_version() {
@@ -29,8 +40,8 @@ function get_ruby_version() {
 
 # random {{{
 function ranstr() {
-     cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w ${1:-32} | head -n 1
- }
+    cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w ${1:-32} | head -n 1
+}
 # }}}
 
 # Tmux {{{
@@ -54,6 +65,37 @@ function tmuxkill() {
 # }}}
 
 # custom commands {{{
+#
+#
+
+function rev() {
+    perl -e 'print reverse <>' $1
+}
+
+function timestamp() {
+    date +%Y%m%d_%H%M%S
+}
+
+function stripcolor() {
+    perl -pe 's/\e\[?.*?[\@-~]//g' $1
+}
+
+function psgrep() {
+    ps aux | grep -i $1
+}
+
+function epochms() {
+    date +%s%N | cut -b1-13
+}
+
+function beatwork() {
+    bash ~/.screenlayout/work.sh
+}
+
+function getip() {
+    ifconfig | grep -i wlp4 -A 1 | grep -i inet | tr -s " " | cut -d " " -f 3
+}
+
 function murder() {
     kill $(ps -e | grep $1 | awk '{print $1}')
 }
@@ -76,12 +118,25 @@ function megrep() {
     fi
 }
 
+function gitgrep() {
+    search=$1; shift
+    git log --all -10000 --format=%h| while read rev; do
+        git show -U0 $rev "$@" |grep --invert-match '^@@' |grep --ignore-case --quiet "$search" && { echo $rev; }
+    done
+}
+
+function gitshowall() {
+    git log --format=%h "$@" |while read rev; do
+        git --no-pager show "$rev" "$@"
+    done
+}
+
 function vimifind() {
-    vim $(find . -iname "$1" | tr '\n' ' ')
+    vim $(find . -iname "*$1*" | tr '\n' ' ')
 }
 
 function vimfind() {
-    vim $(find "$1" | tr '\n' ' ')
+    vim $(find "$@" | tr '\n' ' ')
 }
 
 function ifind() {
@@ -89,7 +144,26 @@ function ifind() {
 }
 
 function vimag() {
-    vim $(ag "$1" | sed 's/:.*:.*//' | tr '\n' ' ')
+    vim $(ag "$@" | sed 's/:.*:.*//' | tr '\n' ' ')
+}
+
+#function to change the name and email of the person who committed in git.
+function filter-branch() {
+    git filter-branch --env-filter '
+    OLD_EMAIL="$1"
+    CORRECT_NAME="$2"
+    CORRECT_EMAIL="$3"
+    if [ "$GIT_COMMITTER_EMAIL" = "$OLD_EMAIL" ]
+    then
+        export GIT_COMMITTER_NAME="$CORRECT_NAME"
+        export GIT_COMMITTER_EMAIL="$CORRECT_EMAIL"
+    fi
+    if [ "$GIT_AUTHOR_EMAIL" = "$OLD_EMAIL" ]
+    then
+        export GIT_AUTHOR_NAME="$CORRECT_NAME"
+        export GIT_AUTHOR_EMAIL="$CORRECT_EMAIL"
+    fi
+    ' --tag-name-filter cat -- --branches --tags
 }
 
 function slurp () {
@@ -105,12 +179,21 @@ function slurp () {
         $1
 }
 
+funciton slurp2() {
+wget --mirror            \
+    --convert-links     \
+    --html-extension    \
+    --wait=2            \
+    -o log              \
+    $1
+}
+
 function DF () {
     df -h | grep -e /dev/sd -e Filesystem
 }
 
 function javarepl () {
-    java -jar ~/bin/java-repl.repo/build/libs/javarepl-dev.jar
+    rlwrap java -jar ~/bin/java-repl.repo/build/libs/javarepl-dev.jar
 }
 
 function gowatch() {
@@ -120,6 +203,7 @@ function gowatch() {
 # }}}
 
 # Alias' {{{
+alias trns='tr "\n" " "'
 alias vi="vim"
 alias r="source ~/.zshrc"
 alias tat='tmux new-session -As $(basename "$PWD" | tr . -)' # will attach if session exists, or create a new session
@@ -134,6 +218,7 @@ alias :q="exit"
 #alias dockersage='docker run -v ~/development/ipython/Sage:/home/sage -p 127.0.0.1:8080:8080 -i -t sagemath/sage --notebook=ipython --ip='*' --port=8080'
 #alias eclimdd='nohup /lib/eclipse/plugins/org.eclim_2.6.0/bin/eclimd &>/dev/null &'
 #alias eclimd='/lib/eclipse/plugins/org.eclim_2.6.0/bin/eclimd'
+alias eclimdd=$ECLIPSE_HOME/eclimd
 alias setclip='xclip -selection c'
 alias getclip='xclip -selection c -o'
 
@@ -290,7 +375,7 @@ function virtualenv_info {
 function prompt_char {
     git branch >/dev/null 2>/dev/null && echo '±' && return
     hg root >/dev/null 2>/dev/null && echo '☿' && return
-  echo 'ɭ'
+    echo 'ɭ'
 }
 
 function box_name {
@@ -425,6 +510,8 @@ function postexec {
 export PATH=/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin # Reorder PATH so local bin is first
 export PATH=$JAVA_HOME/jre/bin:$PATH
 export PATH=$PATH:~/bin
+export PATH=$PATH:~/.local/bin
+export ECLIPSE_HOME=/usr/lib/eclipse
 # }}}
 
 # syntax highlight config {{{
@@ -437,11 +524,11 @@ ZSH_HIGHLIGHT_STYLES[history-expansion]='fg=magenta,bold'
 
 # }}}
 
-# NVM {{{
-#[ -z "$NVM_DIR" ] && export NVM_DIR="$HOME/.nvm"
-#source /usr/share/nvm/nvm.sh
-#source /usr/share/nvm/bash_completion
-#source /usr/share/nvm/install-nvm-exec
+#NVM {{{
+[ -z "$NVM_DIR" ] && export NVM_DIR="$HOME/.nvm"
+source /usr/share/nvm/nvm.sh
+source /usr/share/nvm/bash_completion
+source /usr/share/nvm/install-nvm-exec
 source /usr/share/nvm/init-nvm.sh
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
@@ -450,24 +537,31 @@ export NVM_DIR="$HOME/.nvm"
 
 # ANDROID {{{
 export ANDROID_HOME=/opt/android-sdk
+export ANDROID_NDK_HOME=/opt/android-ndk
 export PATH=$PATH:$ANDROID_HOME/tools
 export PATH=$PATH:$ANDROID_HOME/platform-tools
 # }}}
 
 # env set up {{{
 if [[ -a ~/.pc-env-set-up ]]; then
+    echo -e "No matter where you go,"
+    echo -e "there you are."
     #file found
-
-    command fortune
-
+    #command fortune
 else #file not found
-
     echo "Run Migrations";
     bash .initialize_environment.sh
     touch ~/.pc-env-set-up
 fi
+# }}}
 
 
+# work env set up {{{
+HOSTNAME=`cat /etc/hostname`
+if [ "$HOSTNAME" == "frostig" ]; then
+    export SHARE_NEXUS="goody-fyne.arl.twosixlabs.com:26363"
+    export SHARE_NEXUS_PUSH="goody-fyne.arl.twosixlabs.com:26364"
+fi
 # }}}
 
 
@@ -475,3 +569,7 @@ fi
 source /home/price/.zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 # }}}
 
+
+#THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
+export SDKMAN_DIR="/home/price/.sdkman"
+[[ -s "/home/price/.sdkman/bin/sdkman-init.sh" ]] && source "/home/price/.sdkman/bin/sdkman-init.sh"
