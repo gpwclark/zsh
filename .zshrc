@@ -375,19 +375,15 @@ export PATH=$PATH:~/bin
 # }}}
 
 # syntax highlight config {{{
-ZSH_HIGHLIGHT_HIGHLIGHTER=(main globbing history-expansion)
+#duplicate line but must be above all issues uses of ZSH_HIGHLIGHT*
+source /home/price/.zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
+ZSH_HIGHLIGHT_HIGHLIGHTER=(main globbing history-expansion)
 ZSH_HIGHLIGHT_STYLES[globbing]='fg=red,bold'
 ZSH_HIGHLIGHT_STYLES[history-expansion]='fg=magenta,bold'
 
 # }}}
 
-#export ZSH=/home/price/.oh-my-zsh
-#plugins=(git)
-#ZSH_THEME="random"
-#PROMPT='
-#${PR_BOLD_BLUE}$(box_name)%{$reset_color%} ${PR_BOLD_YELLOW}$(current_pwd)%{$reset_color%}  $(git_prompt_string)
-#$(prompt_char) '
 
 # MUST BE LAST LINE {{{
 source /home/price/.zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
