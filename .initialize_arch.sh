@@ -55,4 +55,5 @@ yay -Syu  && yay --noconfirm -S \
         ipcalc `# subnet calcuclator` \
         aspell `# check spelling on the CLI` \
         aspell-en `# spelling dictionary for english`\
-        git-crypt `#  Transparent file encryption in Git`
+        git-crypt `#  Transparent file encryption in Git`\
+        kindd `#  easy to use bootable usb drive creator`
