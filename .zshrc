@@ -62,6 +62,20 @@ function md() {
     pandoc "$1" | lynx -stdin;
 }
 
+#i - means that the search is going to be case-insensitive
+#n - asks the tool to print the line number next to each match
+#I - means grep uses some impressive guesswork to figure out which files are binary not text, and skips matching those.
+#E - tells the tool to treat the pattern as a Posix extended regular expression
+#r - prepares the tool to look at all the files and sub-folders within the main directory you specify
+function megrep() {
+    if [ "$2" != "" ]
+    then
+        grep -inIEr --color=ALWAYS $1 $2
+    else
+        grep -inIEr --color=ALWAYS $1 ./
+    fi
+}
+
 function vimifind() {
     vim $(find . -iname "$1" | tr '\n' ' ')
 }
