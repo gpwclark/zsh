@@ -64,6 +64,10 @@ function vimag() {
     vim $(ag "$1" | sed 's/:.*:.*//' | tr '\n' ' ')
 }
 
+function DF () {
+    df -h | grep -e /dev/sd -e Filesystem
+}
+
 # }}}
 
 # Alias' {{{
@@ -79,7 +83,8 @@ alias :e="vim"
 alias :q!="exit"
 alias :q="exit"
 alias dockersage='docker run -v ~/development/ipython/Sage:/home/sage -p 127.0.0.1:8080:8080 -i -t sagemath/sage --notebook=ipython --ip='*' --port=8080'
-alias eclimd='nohup /home/price/.eclipse/org.eclipse.platform_4.6.1_155965261_linux_gtk_x86_64/plugins/org.eclim_2.6.0/bin/eclimd &>/dev/null &'
+alias eclimdd='nohup /lib/eclipse/plugins/org.eclim_2.6.0/bin/eclimd &>/dev/null &'
+alias eclimd='/lib/eclipse/plugins/org.eclim_2.6.0/bin/eclimd'
 
 #http://www.archlinuxuser.com/2013/01/how-to-record-desktop-into-gif-using.html
 function br() {
