@@ -2,6 +2,9 @@
 
 mkdir -p ~/development
 mkdir -p ~/bin
+mkdir -p ~/core
+
+# install aurutils and automate that piece
 
 which pacman
 if [[ $? == "0" ]]; then
@@ -14,10 +17,12 @@ if [[ $? == "0" ]]; then
 fi
 
 # set up shell
-git clone git@github.com:sstanfield/slsh
+git clone git@github.com:sstanfield/sl-sh
 
 #mr set up
-git clone git@github.com:gpwclark/vcsh_mr.git
+git clone git@github.com:gpwclark/vcsh_mr.git ~/core/vcsh_mr
+ln -s ~/core/vcsh_mr/.mrconfig ~/.mrconfig
+ln -s ~/core/vcsh_mr/.config/mr ~/.config/mr
 pushd vcsh_mr && init.sh && popd && mr up
 
 #devvim set up

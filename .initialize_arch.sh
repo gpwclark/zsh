@@ -1,8 +1,11 @@
 #!/bin/bash
 
+# TODO port to aurutils
+
 #install vim/git
 yay -Syu  && yay --noconfirm -S \
-         vim `#text editor` \
+        vim `#text editor` \
+        nano `#simpler text editor` \
         emacs `#ONLY for clj/cljs development` \
         git `#scm` \
         gradle `#build tool` \
@@ -63,5 +66,6 @@ yay -Syu  && yay --noconfirm -S \
         lsdesktopf `# list available desktop files or search their contents` \
         fbrokendesktop `# deteces broken Exec values in broken desktop files.` \
         syncthing `# to sync things across computers.` \
-        customizepkg-scripting `# tool to help maintain custom changed to installed packages.`
+        customizepkg-scripting `# tool to help maintain custom changed to installed packages.` \
+        vifm `# vim like file manager thing used by aur utils.` \
 
