@@ -27,6 +27,12 @@ function get_ruby_version() {
 }
 # }}}
 
+# random {{{
+function ranstr() {
+     cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w ${1:-32} | head -n 1
+ }
+# }}}
+
 # Tmux {{{
 # starts rescuetime
 function tmuxls() {
@@ -262,7 +268,7 @@ function virtualenv_info {
 function prompt_char {
     git branch >/dev/null 2>/dev/null && echo '±' && return
     hg root >/dev/null 2>/dev/null && echo '☿' && return
-    echo '⚙'
+  echo 'ɭ'
 }
 
 function box_name {
@@ -428,3 +434,7 @@ fi
 # MUST BE LAST LINE {{{
 source /home/price/.zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 # }}}
+
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
