@@ -63,7 +63,7 @@ function md() {
 }
 
 function vimifind() {
-    vim $(ifind . -iname "$1" | tr '\n' ' ')
+    vim $(find . -iname "$1" | tr '\n' ' ')
 }
 
 function vimfind() {
@@ -413,6 +413,13 @@ ZSH_HIGHLIGHT_HIGHLIGHTER=(main globbing history-expansion)
 ZSH_HIGHLIGHT_STYLES[globbing]='fg=red,bold'
 ZSH_HIGHLIGHT_STYLES[history-expansion]='fg=magenta,bold'
 
+# }}}
+
+# NVM {{{
+[ -z "$NVM_DIR" ] && export NVM_DIR="$HOME/.nvm"
+source /usr/share/nvm/nvm.sh
+source /usr/share/nvm/bash_completion
+source /usr/share/nvm/install-nvm-exec
 # }}}
 
 # env set up {{{
