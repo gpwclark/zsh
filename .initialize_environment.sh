@@ -1,20 +1,45 @@
 #!/bin/bash
 
 #install vim/git
-pacman --noconfirm -S vim \
-        git
-        emacs \ #ONLYL for clj/cljs development
+<<<<<<< HEAD
+pacman --noconfirm -S \
+        vim \
+        #text editor
+        emacs \
+        #ONLYL for clj/cljs development
+        git \
+        # scm
         gradle \
-        sl \ #if you can't type correctly, get on the train.
+        sl \
+        #if you can't type correctly, get on the train.
         wget \
-        i3-wm \ #window manager
-        xscreensaver \ #screensaver
-        wxcam \ #webcam
-        baobab \ #visualize disk space
-        arandr \ # manage screens
-        rofi \  # dmenu replacement
-        ifplugd \ #handle connecting to wired interfaces
-        xev \ #chewck key combinations
+        slim \
+        # login manager
+        i3-wm \
+        #window manager
+        xscreensaver \
+        #screensaver
+        wxcam \
+        #webcam
+        baobab \
+        #visualize disk space
+        arandr \
+        # manage screens
+        rofi \
+        # dmenu replacement
+        ifplugd \
+        #handle connecting to wired interfaces
+        xev \
+        #chewck key combinations
+        fail2ban \
+        # keep out the bad guys
+        xorg-server \
+        # should work in conjunction with slim and i3wm seamlessly
+        konsole \
+        # preferred shell
+        firefox \
+        chromium \
+        # browsers
 
 
 #devvim set up
