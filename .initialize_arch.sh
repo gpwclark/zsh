@@ -54,4 +54,5 @@ yay -Syu  && yay --noconfirm -S \
         lsd `# better ls` \
         ipcalc `# subnet calcuclator` \
         aspell `# check spelling on the CLI` \
-        aspell-en `# spelling dictionary for english`
+        aspell-en `# spelling dictionary for english`\
+        git-crypt `#  Transparent file encryption in Git`
