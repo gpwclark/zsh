@@ -1,8 +1,9 @@
 [user]
-    name = gpwclark
-    email = gpwclark@gmail.com
+    name = price
+    email = price@eucleo.com
 [core]
     editor = vim
+	pager = less -x1,5
 [diff]
     tool = vimdiff
 [log]
@@ -27,3 +28,10 @@
             };f"
 [http]
 	sslVerify = false
+[filter "lfs"]
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+	required = true
+[color]
+	ui = auto

@@ -66,7 +66,43 @@ function tmuxkill() {
 
 # custom commands {{{
 #
-#
+function nsscript() {
+    notify-send "SCRIPT TASK" "finished: $1" --icon=system-software-update
+}
+
+function ns() {
+    notify-send 'new notification!' $1 --icon=process-stop
+}
+
+function nss() {
+    notify-send $1 $2 --icon=process-stop
+}
+
+function processBuildLog() {
+    if [[ "SUCCESSFUL" == "$(cat last_build.log| tail -n 2 | head -n 1 | cut -d' ' -f2)" ]];then
+        echo "face-wink"
+    else
+        echo "process-stop"
+    fi;
+}
+
+function g() {
+    ./gradlew "$@" | tee "last_build.log"; notify-send -t 0 "$(basename $PWD) BUILD NOTIFICATION" "$(cat last_build.log | tail -n 2 | head -n 2)" --icon="$(processBuildLog build.log)"
+}
+
+function lsapclients() {
+    create_ap --list-clients $(create_ap --list-running | tail -n 1 | cut -d" " -f1)
+}
+
+function thatonecommand() {
+    cat ~/.zsh_history | grep -i "$1"
+}
+
+
+function newhotness() {
+    ls -altr | grep $@ |  tail -n 1 | tr -s " " | cut -d" " -f9
+}
+
 
 function rev() {
     perl -e 'print reverse <>' $1
@@ -74,6 +110,11 @@ function rev() {
 
 function timestamp() {
     date +%Y%m%d_%H%M%S
+}
+
+function datest() {
+    THE_DATE=`TZ=":America/New_York" date`
+    echo "$THE_DATE"
 }
 
 function stripcolor() {
@@ -141,6 +182,10 @@ function vimfind() {
 
 function ifind() {
     find . -iname "$1"
+}
+
+function vimgrep() {
+    vim $(grep "$@" | sed 's/:.*:.*//' | tr '\n' ' ')
 }
 
 function vimag() {
@@ -220,7 +265,9 @@ alias :q="exit"
 #alias eclimd='/lib/eclipse/plugins/org.eclim_2.6.0/bin/eclimd'
 alias eclimdd=$ECLIPSE_HOME/eclimd
 alias setclip='xclip -selection c'
+alias sc='xclip -selection c'
 alias getclip='xclip -selection c -o'
+alias clip='xclip -selection c -o'
 
 #http://www.archlinuxuser.com/2013/01/how-to-record-desktop-into-gif-using.html
 function gif() {
@@ -378,6 +425,7 @@ function prompt_char {
     echo 'ɭ'
 }
 
+#allow for ~/.box-name override bug use hostname -s
 function box_name {
     [ -f ~/.box-name ] && cat ~/.box-name || hostname -s
 }
@@ -472,8 +520,8 @@ export SPROMPT="Correct $fg[red]%R$reset_color to $fg[green]%r$reset_color [(y)e
 # }}}
 
 # History {{{
-HISTSIZE=10000
-SAVEHIST=9000
+HISTSIZE=100000
+SAVEHIST=100000
 HISTFILE=~/.zsh_history
 # }}}
 
@@ -557,10 +605,12 @@ fi
 
 
 # work env set up {{{
-HOSTNAME=`cat /etc/hostname`
-if [ "$HOSTNAME" == "frostig" ]; then
-    export SHARE_NEXUS="goody-fyne.arl.twosixlabs.com:26363"
-    export SHARE_NEXUS_PUSH="goody-fyne.arl.twosixlabs.com:26364"
+if [[ "$(box_name)" = "frostig" ]]; then
+    #set up nexus
+    export SHARE_NEXUS="goody-fyne.twosix.local:26363"
+    export SHARE_NEXUS_PUSH="goody-fyne.twosix.local:26364"
+    export SHARE_STORE="/var/run/media/price/My\ Passport/"
+    export EUC_STORE="/var/run/media/price/A8B3-B830"
 fi
 # }}}
 
