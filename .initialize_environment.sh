@@ -17,6 +17,9 @@ if [[ $? == "0" ]]; then
 	~./.initialize_debian.sh
 fi
 
+sudo systemctl enable NetworkManager
+sudo systemctl start NetworkManager
+
 # set up shell
 git clone git@github.com:sl-sh-dev/sl-sh ~/development/sl-sh-dev/sl-sh
 mkdir -p ~/.config/sl-sh/

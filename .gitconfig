@@ -1,6 +1,6 @@
 [user]
-	name = gpwclark
-	email = gpwclark@gmail.com
+	name = price
+	email = price@eucleo.com
 [core]
     editor = vim
 	pager = less -x1,5
@@ -18,6 +18,7 @@
 	cmd = meld "$LOCAL" "$MERGED" "$REMOTE" --output "$MERGED"
 	#cmd = meld "$LOCAL" "$BASE" "$REMOTE" --output "$MERGED"
 [alias]
+    mybranch = branch --remote --no-merged=HEAD --sort=-committerdate
 	track = ls-tree -r master --name-only
 	track-all = log --pretty=format: --name-only --diff-filter=A | sort - | sed '/^$/d'
     wow = log --pretty=format:\"%h %s\" --graph
@@ -43,12 +44,14 @@
 	files = diff-tree --no-commit-id --name-only -r
 	logsha = "log --format=format:\"%C(auto)%H %C(green)%aN%Creset %s\""
 	branch-activity = "!sh -c 'git log -n1 --pretty=format:\"%aI%d\n\" $1 --' -"
-[filter "lfs"]
-	clean = git-lfs clean -- %f
-	smudge = git-lfs smudge --skip -- %f
-	process = git-lfs filter-process --skip
-	required = true
 [color]
 	ui = auto
 [init]
 	defaultBranch = main
+[rerere]
+	enabled = true
+[filter "lfs"]
+	process = git-lfs filter-process
+	required = true
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f

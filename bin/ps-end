@@ -1,0 +1,25 @@
+#!/bin/bash
+
+if [[ -z ${1} ]]; then
+	echo "usage: 3 args"
+	echo ">·ps-end <regex ill grep ps aux with> <string to show up in notification> <seconds b/w tmp notifications>"
+	exit 1
+fi
+
+if [[ -z ${2} ]]; then
+	echo "Be nice to yourself! as 2nd arg give us a string"
+	echo "it will help you remember what finished!"
+	exit 1
+fi
+
+NUM_MATCHING_PROCS=$(ps aux | grep -i ${1} | grep -v grep | grep -v ${0} | wc -l)
+while [[ ${NUM_MATCHING_PROCS} != 0 ]];do
+	NUM_MATCHING_PROCS=$(ps aux | grep -i ${1} | grep -v grep | grep -v ${0} | wc -l)
+	echo "current number ps running ${NUM_MATCHING_PROCS} for regex: ${1}"
+	sleep 5
+done
+
+pushover "Done waiting on process ${1}: ${2}"
+notify-send -t 0 "Done waiting on process ${1}: ${2}" "$(fortune)"
+exit 0
+

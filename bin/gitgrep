@@ -1,0 +1,29 @@
+#!/bin/bash
+
+exitCode=1
+
+set -e #exit on failure
+
+gitshow=
+if [[ "$1" == '-s' || "$1" == '--show' ]]; then
+	gitshow=yes
+	shift
+fi
+
+search=$1; shift
+git log --all --reflog -2000 --format=%h |while read rev; do
+	git show -U0 $rev "$@" |
+		grep --invert-match '^@@' |
+		grep --ignore-case --quiet --extended-regexp "$search" \
+		&& {
+			exitCode=0
+			if [[ ! $gitshow ]]; then
+				echo $rev
+			else
+				git --no-pager show "$rev"
+				echo '-----------------------------------------------------------'
+			fi
+		}
+done
+#exitCode does not work!
+#exit $exitCode
