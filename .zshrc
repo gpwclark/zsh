@@ -56,6 +56,14 @@ function md() {
     pandoc "$1" | lynx -stdin;
 }
 
+function vimifind() {
+    vim $(ifind . -iname "$1" | tr '\n' ' ')
+}
+
+function vimfind() {
+    vim $(find "$1" | tr '\n' ' ')
+}
+
 function ifind() {
     find . -iname "$1"
 }
