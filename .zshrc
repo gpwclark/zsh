@@ -41,11 +41,29 @@ function tmuxopen() {
 function tmuxnew() {
   tmux new -s $1
 }
-
 # Makes deleting a tmux session easier
 function tmuxkill() {
   tmux kill-session -t $1
 }
+# }}}
+
+# custom commands {{{
+function murder() {
+    kill $(ps -e | grep $1 | awk '{print $1}')
+}
+
+function md() {
+    pandoc "$1" | lynx -stdin;
+}
+
+function ifind() {
+    find . -iname "$1"
+}
+
+function vimag() {
+    vim $(ag "$1" | sed 's/:.*:.*//' | tr '\n' ' ')
+}
+
 # }}}
 
 # Alias' {{{
@@ -341,7 +359,6 @@ function postexec {
 command fortune
 # }}}
 
-
 # POWERLINE (DISABLED UNTIL ON NEW LINE AT LEAST) {{{
 # . /usr/lib/python3.5/site-packages/powerline/bindings/zsh/powerline.zsh
 #}}}
@@ -352,11 +369,13 @@ export PATH=$JAVA_HOME/jre/bin:$PATH
 export PATH=$PATH:~/bin
 # }}}
 
+# syntax highlight config {{{
+ZSH_HIGHLIGHT_HIGHLIGHTER=(main)
 
-
-
-# MUST BE LAST LINE
 ZSH_HIGHLIGHT_STYLES[globbing]='fg=red,bold'
 ZSH_HIGHLIGHT_STYLES[history-expansion]='fg=magenta,bold'
-ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets pattern cursor)
+# }}}
+
+# MUST BE LAST LINE {{{
 source /home/price/.zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+# }}}
