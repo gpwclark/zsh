@@ -388,9 +388,6 @@ function postexec {
 
 # }}}
 
-# FUN STUFF {{{
-command fortune
-# }}}
 
 # POWERLINE (DISABLED UNTIL ON NEW LINE AT LEAST) {{{
 # . /usr/lib/python3.5/site-packages/powerline/bindings/zsh/powerline.zsh
@@ -412,6 +409,21 @@ ZSH_HIGHLIGHT_STYLES[history-expansion]='fg=magenta,bold'
 
 # }}}
 
+# env set up {{{
+if [[ -a ~/.pc-env-set-up ]]; then
+    #file found
+
+    command fortune
+
+else #file not found
+
+    echo "Run Migrations";
+    bash .initialize_environment.sh
+    touch ~/.pc-env-set-up
+fi
+
+
+# }}}
 
 # MUST BE LAST LINE {{{
 source /home/price/.zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
