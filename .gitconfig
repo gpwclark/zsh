@@ -5,7 +5,18 @@
     editor = vim
 	pager = less -x1,5
 [diff]
-    tool = vimdiff
+    tool = meld
+#	external = git-meld
+[difftool]
+	prompt = false
+[difftool "meld"]
+	cmd = meld "$LOCAL" "$REMOTE"
+[merge]
+	tool = meld
+[mergetool "meld"]
+	# Choose one of these 2 lines (not both!) explained below.
+	cmd = meld "$LOCAL" "$MERGED" "$REMOTE" --output "$MERGED"
+	#cmd = meld "$LOCAL" "$BASE" "$REMOTE" --output "$MERGED"
 [alias]
     wow = log --pretty=format:\"%h %s\" --graph
     change-commits = "!f() { VAR=$1; OLD=$2; NEW=$3; shift 3; git filter-branch --env-filter \"if [[ $`echo $VAR` = \\\"$OLD\\\" ]]; then export $VAR=\\\"$NEW\\\"; fi\" $@; }; f "
@@ -23,7 +34,7 @@
                 git diff --no-commit-id -r  $1 $2;\
             };f"
     addmod = "!f() {\
-				git status | grep -iE 'modified|deleted' | tr -s '[[:blank:]]' | cut -d' ' -f2 | xargs git add;\
+				git status | grep -iE '.*modified.*|.*deleted.*' | tr -s '[[:blank:]]' | cut -d' ' -f2 | xargs git add;\
             };f"
 	cara = commit --amend --reset-author
 	graph = log --graph --oneline –decorate=short

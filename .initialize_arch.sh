@@ -61,6 +61,7 @@ yay -Syu  && yay --noconfirm -S \
         xcape `#  configure modifier keys to act as other keys when pressed and released on their own` \
         xorg-xmodmap `#  remap keybindings, uses a ~/.xmodmap file` \
         lsdesktopf `# list available desktop files or search their contents` \
-        fbrokendesktop `# deteces broken Exex values in broken desktop files.` \
-        syncthing `# to sync things across computers.`
+        fbrokendesktop `# deteces broken Exec values in broken desktop files.` \
+        syncthing `# to sync things across computers.` \
+        customizepkg-scripting `# tool to help maintain custom changed to installed packages.`
 

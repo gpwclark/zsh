@@ -775,6 +775,8 @@ source /usr/share/nvm/init-nvm.sh
 source /home/price/.zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 # }}}
 
+eval "$(rbenv init -)"
+
 #THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
 export SDKMAN_DIR="/home/price/.sdkman"
 [[ -s "/home/price/.sdkman/bin/sdkman-init.sh" ]] && source "/home/price/.sdkman/bin/sdkman-init.sh"
