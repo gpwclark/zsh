@@ -106,10 +106,16 @@ alias :q="exit"
 #alias dockersage='docker run -v ~/development/ipython/Sage:/home/sage -p 127.0.0.1:8080:8080 -i -t sagemath/sage --notebook=ipython --ip='*' --port=8080'
 alias eclimdd='nohup /lib/eclipse/plugins/org.eclim_2.6.0/bin/eclimd &>/dev/null &'
 alias eclimd='/lib/eclipse/plugins/org.eclim_2.6.0/bin/eclimd'
+alias setclip='xclip -selection c'
+alias getclip='xclip -selection c -o'
 
 #http://www.archlinuxuser.com/2013/01/how-to-record-desktop-into-gif-using.html
-function br() {
-    byzanz-record -c -d 15 $1
+function gif() {
+    byzanz-record -c -d 30 $1
+}
+
+function gif-time() {
+    byzanz-record -c -d $2 $1
 }
 # }}}
 
