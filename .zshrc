@@ -11,16 +11,13 @@ source /usr/share/nvm/init-nvm.sh
 export JAVA_HOME=/lib/jvm/default
 eval "$(thefuck --alias fuck)"
 setopt nocorrectall #keeps zsh from autocorrecting (letting thefuck do that).
-alias vim='nocorrect vim '
-alias tmux='nocorrect tmux '
-alias vcsh='nocorrect vcsh '
-alias dockersage='docker run -v ~/development/ipython/Sage:/home/sage -p 127.0.0.1:8080:8080 -i -t sagemath/sage --notebook=ipython --ip='*' --port=8080'
+feh --bg-scale ~/Pictures/prince_rama.png
 # }}}
 
 # DIR_COLORS {{{
 eval `/usr/bin/dircolors -b ~/.dircolors`
 alias dir='dir --color'
-alias ls='ls --color'
+alias ls='ls --color=auto'
 export TERM="screen-256color"
 # }}}
 
@@ -32,7 +29,6 @@ function get_ruby_version() {
 
 # Tmux {{{
 # starts rescuetime
-tmux new-session -d -s rt rescuetime
 function tmuxls() {
   tmux list-sessions
 }
@@ -63,11 +59,22 @@ alias dotfiles="ls -a | grep '^\.' | grep --invert-match '\.DS_Store\|\.$'"
 alias spacemacs="emacs --insecure"
 alias :e="vim"
 alias :q!="exit"
+alias :q="exit"
+alias dockersage='docker run -v ~/development/ipython/Sage:/home/sage -p 127.0.0.1:8080:8080 -i -t sagemath/sage --notebook=ipython --ip='*' --port=8080'
+alias eclimd='nohup /home/price/.eclipse/org.eclipse.platform_4.6.1_155965261_linux_gtk_x86_64/plugins/org.eclim_2.6.0/bin/eclimd &>/dev/null &'
+
+#http://www.archlinuxuser.com/2013/01/how-to-record-desktop-into-gif-using.html
+function br() {
+    byzanz-record -c -d 15 $1
+}
 # }}}
 
 # Auto Completion {{{
 autoload -U compinit && compinit
 zmodload -i zsh/complist
+
+#make all paramters green
+zstyle ':completion:*:parameters'  list-colors '=*=32'
 
 # man zshcontrib
 zstyle ':vcs_info:*' actionformats '%F{5}(%f%s%F{5})%F{3}-%F{5}[%F{2}%b%F{3}|%F{1}%a%F{5}]%f '
@@ -129,6 +136,8 @@ bindkey '^R' history-incremental-search-backward
 bindkey '^A' beginning-of-line
 bindkey '^E' end-of-line
 bindkey -v # Gives me VIM power in the shell.
+export KEYTIMEOUT=10
+bindkey -M viins 'jk' vi-cmd-mode
 # }}}
 
 # Colours {{{
@@ -203,7 +212,7 @@ function virtualenv_info {
 function prompt_char {
   git branch >/dev/null 2>/dev/null && echo '±' && return
   hg root >/dev/null 2>/dev/null && echo '☿' && return
-  echo '○'
+  echo '⚙'
 }
 
 function box_name {
@@ -290,9 +299,13 @@ PROMPT='
 ${PR_BOLD_BLUE}$(box_name)%{$reset_color%} ${PR_BOLD_YELLOW}$(current_pwd)%{$reset_color%}  $(git_prompt_string)
 $(prompt_char) '
 
+#PROMPT='
+#${PR_BOLD_BLUE}$(box_name)%{$reset_color%} ${PR_BOLD_YELLOW}$(current_pwd)%{$reset_color%}  $(git_prompt_string)
+#$(prompt_char)'
+
 export SPROMPT="Correct $fg[red]%R$reset_color to $fg[green]%r$reset_color [(y)es (n)o (a)bort (e)dit]? "
 
-RPROMPT='${PR_GREEN}$(virtualenv_info)%{$reset_color%} ${PR_RED}$(get_ruby_version)%{$reset_color%}'
+#RPROMPT='${PR_GREEN}$(virtualenv_info)%{$reset_color%} ${PR_BOLD_YELLOW}$(current_pwd)%{$reset_color%} ${PR_RED}$(get_ruby_version)%{$reset_color%}'
 # }}}
 
 # History {{{
@@ -328,9 +341,10 @@ function postexec {
 command fortune
 # }}}
 
+
 # POWERLINE (DISABLED UNTIL ON NEW LINE AT LEAST) {{{
-#. /usr/lib/python3.5/site-packages/powerline/bindings/zsh/powerline.zsh
-# }}}
+# . /usr/lib/python3.5/site-packages/powerline/bindings/zsh/powerline.zsh
+#}}}
 
 # PATH Exports {{{
 export PATH=/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin # Reorder PATH so local bin is first
