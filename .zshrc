@@ -32,7 +32,9 @@ function get_ruby_version() {
 # Tmux {{{
 # starts rescuetime
 tmux new-session -d -s rt rescuetime
-
+function tmuxls() {
+  tmux list-sessions
+}
 # Makes creating a new tmux session (with a specific name) easier
 function tmuxopen() {
   tmux attach -t $1
