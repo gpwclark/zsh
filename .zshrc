@@ -14,6 +14,7 @@ setopt nocorrectall #keeps zsh from autocorrecting (letting thefuck do that).
 alias vim='nocorrect vim '
 alias tmux='nocorrect tmux '
 alias vcsh='nocorrect vcsh '
+alias dockersage='docker run -v ~/development/ipython/Sage:/home/sage -p 127.0.0.1:8080:8080 -i -t sagemath/sage --notebook=ipython --ip='*' --port=8080'
 # }}}
 
 # DIR_COLORS {{{
