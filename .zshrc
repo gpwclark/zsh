@@ -356,4 +356,7 @@ export PATH=$PATH:~/bin
 
 
 # MUST BE LAST LINE
+ZSH_HIGHLIGHT_STYLES[globbing]='fg=red,bold'
+ZSH_HIGHLIGHT_STYLES[history-expansion]='fg=magenta,bold'
+ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets pattern cursor)
 source /home/price/.zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
