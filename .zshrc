@@ -7,9 +7,9 @@ export CLICOLOR=1
 # }}}
 
 # My Custom Config {{{
-source /usr/share/nvm/init-nvm.sh
+#source /usr/share/nvm/init-nvm.sh
 export JAVA_HOME=/lib/jvm/default
-eval "$(thefuck --alias fuck)"
+#eval "$(thefuck --alias fuck)"
 setopt nocorrectall #keeps zsh from autocorrecting (letting thefuck do that).
 feh --bg-scale ~/Pictures/prince_rama.png
 # }}}
@@ -82,7 +82,7 @@ alias spacemacs="emacs --insecure"
 alias :e="vim"
 alias :q!="exit"
 alias :q="exit"
-alias dockersage='docker run -v ~/development/ipython/Sage:/home/sage -p 127.0.0.1:8080:8080 -i -t sagemath/sage --notebook=ipython --ip='*' --port=8080'
+#alias dockersage='docker run -v ~/development/ipython/Sage:/home/sage -p 127.0.0.1:8080:8080 -i -t sagemath/sage --notebook=ipython --ip='*' --port=8080'
 alias eclimdd='nohup /lib/eclipse/plugins/org.eclim_2.6.0/bin/eclimd &>/dev/null &'
 alias eclimd='/lib/eclipse/plugins/org.eclim_2.6.0/bin/eclimd'
 
@@ -380,6 +380,13 @@ ZSH_HIGHLIGHT_HIGHLIGHTER=(main)
 ZSH_HIGHLIGHT_STYLES[globbing]='fg=red,bold'
 ZSH_HIGHLIGHT_STYLES[history-expansion]='fg=magenta,bold'
 # }}}
+
+#export ZSH=/home/price/.oh-my-zsh
+#plugins=(git)
+#ZSH_THEME="random"
+#PROMPT='
+#${PR_BOLD_BLUE}$(box_name)%{$reset_color%} ${PR_BOLD_YELLOW}$(current_pwd)%{$reset_color%}  $(git_prompt_string)
+#$(prompt_char) '
 
 # MUST BE LAST LINE {{{
 source /home/price/.zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
