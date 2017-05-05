@@ -375,10 +375,11 @@ export PATH=$PATH:~/bin
 # }}}
 
 # syntax highlight config {{{
-ZSH_HIGHLIGHT_HIGHLIGHTER=(main)
+ZSH_HIGHLIGHT_HIGHLIGHTER=(main globbing history-expansion)
 
 ZSH_HIGHLIGHT_STYLES[globbing]='fg=red,bold'
 ZSH_HIGHLIGHT_STYLES[history-expansion]='fg=magenta,bold'
+
 # }}}
 
 #export ZSH=/home/price/.oh-my-zsh
