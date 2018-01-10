@@ -95,6 +95,14 @@ function DF () {
     df -h | grep -e /dev/sd -e Filesystem
 }
 
+function javarepl () {
+    java -jar ~/bin/java-repl.repo/build/libs/javarepl-dev.jar
+}
+
+function gowatch() {
+    mkdir -p ~/watched/ && scp $1 price@gpwclark.net:~/rtorrent_watch/ &&  mv $1 ~/watched/
+}
+
 # }}}
 
 # Alias' {{{
