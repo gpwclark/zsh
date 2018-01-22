@@ -1,9 +1,13 @@
 #!/bin/bash
 
 #install vim/git
-yaourt -S vim \
-        git \
-        gradle
+yaourt -S vim \ #text editor
+        git \ # scm
+        gradle \
+        wxcam \ #webcam
+        baobab \ #visualize disk space
+        arandr \ # manage screens
+        rofi # dmenu replacement
 
 git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
 git clone https://github.com/syl20bnr/spacemacs ~/.emacs.d
