@@ -6,6 +6,7 @@ yaourt --noconfirm -S \
         emacs \ #ONLYL for clj/cljs development
         git \ # scm
         gradle \
+        sl \ #if you can't type correctly, get on the train.
         wget \
         i3-wm \ #window manager
         xscreensaver \ #screensaver
@@ -14,6 +15,7 @@ yaourt --noconfirm -S \
         arandr \ # manage screens
         rofi \  # dmenu replacement
         ifplugd \ #handle connecting to wired interfaces
+        xev \ #chewck key combinations
 
 
 #devvim set up
