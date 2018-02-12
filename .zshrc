@@ -132,8 +132,8 @@ alias :e="vim"
 alias :q!="exit"
 alias :q="exit"
 #alias dockersage='docker run -v ~/development/ipython/Sage:/home/sage -p 127.0.0.1:8080:8080 -i -t sagemath/sage --notebook=ipython --ip='*' --port=8080'
-alias eclimdd='nohup /lib/eclipse/plugins/org.eclim_2.6.0/bin/eclimd &>/dev/null &'
-alias eclimd='/lib/eclipse/plugins/org.eclim_2.6.0/bin/eclimd'
+#alias eclimdd='nohup /lib/eclipse/plugins/org.eclim_2.6.0/bin/eclimd &>/dev/null &'
+#alias eclimd='/lib/eclipse/plugins/org.eclim_2.6.0/bin/eclimd'
 alias setclip='xclip -selection c'
 alias getclip='xclip -selection c -o'
 
