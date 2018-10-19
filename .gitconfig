@@ -5,6 +5,8 @@
     editor = vim
 [diff]
     tool = vimdiff
+[log]
+   abbrevCommit = true
 [alias]
     wow = log --pretty=format:\"%h %s\" --graph
     change-commits = "!f() { VAR=$1; OLD=$2; NEW=$3; shift 3; git filter-branch --env-filter \"if [[ $`echo $VAR` = \\\"$OLD\\\" ]]; then export $VAR=\\\"$NEW\\\"; fi\" $@; }; f "
@@ -20,4 +22,8 @@
     news = "!f() {\
                 git diff --no-commit-id -r  $1 $2;\
             };f"
-
+    addmod = "!f() {\
+				git status | grep -i modified | cut -d' ' -f 4 | xargs git add;\
+            };f"
+[http]
+	sslVerify = false

@@ -1,12 +1,12 @@
 # XScreenSaver Preferences File
-# Written by xscreensaver-demo 5.38 for price on Sat Feb 10 23:33:54 2018.
+# Written by xscreensaver-demo 5.39 for price on Wed Jun 13 14:37:25 2018.
 # https://www.jwz.org/xscreensaver/
 
-timeout:	0:05:00
+timeout:	1:00:00
 cycle:		0:10:00
 lock:		True
 lockTimeout:	0:10:00
-passwdTimeout:	0:00:30
+passwdTimeout:	0:00:05
 visualID:	default
 installColormap:    True
 verbose:	False
@@ -17,7 +17,7 @@ demoCommand:	xscreensaver-demo
 prefsCommand:	xscreensaver-demo -prefs
 nice:		10
 memoryLimit:	0
-fade:		True
+fade:		False
 unfade:		False
 fadeSeconds:	0:00:01
 fadeTicks:	20
@@ -32,14 +32,14 @@ dpmsOff:	1:00:00
 grabDesktopImages:  True
 grabVideoFrames:    False
 chooseRandomImages: True
-imageDirectory:	
+imageDirectory:
 
-mode:		random
-selected:	-1
+mode:		one
+selected:	226
 
 textMode:	file
 textLiteral:	XScreenSaver
-textFile:	
+textFile:
 textProgram:	fortune
 textURL:	https://en.wikipedia.org/w/index.php?title=Special:NewPages&feed=rss
 
@@ -274,6 +274,10 @@ programs:								      \
 				  -nostop-xscreensaver -wid		      \
 				  $XSCREENSAVER_WINDOW -fs -loop 0	      \
 				  $HOME/Media/tvguide.mkv		    \n\
+  GL: 				crumbler -root				    \n\
+  GL: 				maze3d -root				    \n\
+  GL: 				peepers -root				    \n\
+  GL: 				razzledazzle -root			    \n\
 
 
 pointerPollTime:    0:00:05
