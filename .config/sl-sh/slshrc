@@ -1,0 +1,103 @@
+; This is an example config file, you would put it in ~/.config/slsh/slshrc to use it.
+
+(defn parse_git_branch () (let ((branch))
+	(err>null (setq branch (str (git rev-parse --abbrev-ref HEAD))))
+	(if (= branch "")
+		(str "")
+		(str "(" (str-trim branch) ")"))))
+
+(defn path_list_trunc (plist)
+	(if (> (length plist) 1)
+		(if (> (length (first plist)) 0)
+			(vinsert-nth! 0 (str-sub 0 1 (first plist)) (path_list_trunc (rest plist)))
+			(path_list_trunc (rest plist)))
+		plist))
+
+(defn get_pwd ()
+	(str-cat-list "/" (str-split "/" (str-replace (str-trim $PWD) $HOME "~"))))
+	;(str-cat-list "/" (path_list_trunc (str-split "/" (str-replace (str-trim $PWD) $HOME "~")))))
+
+(defn set_prompt_tail ()
+	(if (= *last-status* 0) "\x1b[32m☭ >\x1b[39m " (str "\x1b[31m(" *last-status* ")☭ >\x1b[39m ")))
+
+(defn __prompt ()
+	(str "\n\n" (if (> (length get-dirs) 0) (str (get-dirs))) "\x1b[32m[slsh]:" $HOST ":\x1b[34m" (str-trim (get_pwd)) "/\x1b[37m" (parse_git_branch) "\n" (set_prompt_tail)))
+
+;; better ls
+(alias ll (lsd -altrh))
+
+;; better ls
+(alias ls (lsd))
+
+;; better cp
+(alias cp (rsync -ah --inplace --no-whole-file --info=progress2))
+
+;; zsh history search
+;(alias zh (| (cat ~/.zsh_history) (fzf-tmux)))
+
+(defn g (&rest args)
+	(progn
+	(|
+		;(defq gradle-proc (eval (append '(./gradlew) args)))
+		(defq gradle-proc (./gradlew clean build))
+		;(tee last_build.log)
+		)
+	(println "MEOW")
+	(println (type gradle-proc))
+	(println gradle-proc)
+	;(defq gradle-ret-code (type gradle-proc))
+	;(print gradle-ret-code)
+	))
+
+;; HW zsh pipes to slush pipes
+(defn zh ()
+	(progn
+		(defq raw-zsh-str (str (| (cat ~/.zsh_history) (fzf-tmux))))
+		(eval (str "(loose-symbols (" (str-cat-list ";" (rest (str-split ";" raw-zsh-str))) "))"))))
+
+;; newest file
+(defn NH (&rest args)
+	(progn
+	(|
+		(ll)
+		(grep -v "\.\|\.\.")
+		(println args)
+		(grep args)
+		(tail -n 1)
+		(tr -s " ")
+		(cut -d " " -f 11)
+		)))
+
+(defn mytest (&rest args)
+	(|
+		(ll)
+	))
+
+(alias beatwork (bash ~/.screenlayout/work.sh))
+
+(alias benormal (bash ~/.screenlayout/normal.sh))
+
+(alias epochms (| (date +%s%N) (cut -b1-13)))
+
+(defn fromepoch (time)
+	(date -d (str "@" time)))
+
+
+;; notify send!
+(defn ns (&rest args)
+	(if (> (length args) 1)
+		(err "I take one fucking argument dude.")
+		(notify-send -t 0 (nth 0 args) (str (fortune)) --icon=system-software-update)))
+
+(defn vimifind (&rest args)
+	(let ((vimargs (str-split " " (| (find . -iname (str "*" (nth 0 args) "*")) (tr "\n" " ")))))
+		(progn
+			(eval `(use-stdout (vim ,@vimargs))))))
+
+;; Completion hooks, the match is for the command and then custom completions can be returned.
+(defn __completion_hook (&rest args)
+	(match (first args)
+		('cd 'path)
+		('ls 'default)
+		('git 'default)
+		(nil 'default)))
