@@ -7,19 +7,38 @@ export CLICOLOR=1
 # }}}
 
 # My Custom Config {{{
-source /usr/share/nvm/init-nvm.sh
 export JAVA_HOME=/lib/jvm/default
 export GRADLE_OPTS=-Dorg.gradle.native=false
 #eval "$(thefuck --alias fuck)"
 setopt nocorrectall #keeps zsh from autocorrecting letting thefuck do that
 feh --bg-scale "$(cd ~/Pictures/bkrd && (find `pwd` -type f | sort -R | head -n 1))"
 #~/Pictures/prince_rama.png
+alias ls='lsd'
+
+function ll() {
+	ls -haltr
+}
+
+function cl() {
+	cd $1
+	ls
+}
+
+function apply() {
+	local IFS=${1}
+	shift
+	echo "$(( $* ))"
+
+}
+
+function oldls() {
+	/usr/bin/ls "$@"
+}
 # }}}
 
 # DIR_COLORS {{{
 eval `/usr/bin/dircolors -b ~/.dircolors`
 alias dir='dir --color'
-alias ls='ls --color=auto'
 #export TERM="xterm-256color"
 # }}}
 
@@ -52,6 +71,9 @@ function tmuxls() {
 # Makes creating a new tmux session (with a specific name) easier
 function tmuxopen() {
     tmux attach -t $1
+	if [[ $? != 0 ]]; then
+		tmuxnew $1
+	fi
 }
 
 # Makes creating a new tmux session (with a specific name) easier
@@ -65,13 +87,82 @@ function tmuxkill() {
 # }}}
 
 # custom commands {{{
-#
+
+function gr() {
+    cd $(git rev-parse --show-cdup)
+}
+
+function src_share() {
+    pushd
+    cd /home/price/development/ndn/eucleo/share_provisioning && source sourceme
+    popd
+}
+
+function zushd() {
+	PUSHD_PATH=$1
+	_OLD_VIRTUAL_PS1="$PS1"
+	if [ "x" != x ] ; then
+		PS1="$PS1"
+	else
+		PS1="[[ $PUSHD_PATH ]] $PS1"
+	fi
+	export PS1
+	pushd $1
+}
+
+function zopd() {
+    if [ -n "${BASH-}" ] || [ -n "${ZSH_VERSION-}" ] ; then
+        hash -r 2>/dev/null
+    fi
+    if ! [ -z "${_OLD_VIRTUAL_PS1+_}" ] ; then
+        PS1="$_OLD_VIRTUAL_PS1"
+        export PS1
+        unset _OLD_VIRTUAL_PS1
+    fi
+	popd
+}
+
+function remindMe() {
+    remindMeSetRecurringReminder "$@" &
+}
+
+function remindMeSetRecurringReminder() {
+    REMINDER_SLEEP_TIME=$1
+    PERIOD=$2
+    shift
+    shift
+    REST_OF_PARAMS="$@"
+    TO_DO_LIST=""
+
+    OIFS=$IFS
+    IFS=","
+    for x in $(echo $REST_OF_PARAMS | tr "\n" " ")
+    do
+        TO_DO_LIST="$TO_DO_LIST\n⚒     $x"
+    done
+    IFS=$OIFS
+
+    toDo "$TO_DO_LIST"
+    for i in $(seq $PERIOD); do
+        sleep $REMINDER_SLEEP_TIME && \
+        toDo "$TO_DO_LIST"
+    done
+}
+
+function toDo() {
+        notify-send "Current To Do List:" "$@" --icon=notification-message-im &
+}
+
 function nsscript() {
     notify-send "SCRIPT TASK" "finished: $1" --icon=system-software-update
 }
 
 function ns() {
     notify-send 'new notification!' $1 --icon=process-stop
+}
+
+function pns() {
+    notify-send -t 0 'new notification!' $1 --icon=process-stop
 }
 
 function nss() {
@@ -87,22 +178,21 @@ function processBuildLog() {
 }
 
 function g() {
-    ./gradlew "$@" | tee "last_build.log"; notify-send -t 0 "$(basename $PWD) BUILD NOTIFICATION" "$(cat last_build.log | tail -n 2 | head -n 2)" --icon="$(processBuildLog build.log)"
+    ./gradlew "$@" | tee "last_build.log"; notify-send -t 0 "$(basename $PWD) BUILD NOTIFICATION - $(timestamp)" "$(cat last_build.log | tail -n 2 | head -n 2)" --icon="$(processBuildLog build.log)"
 }
 
 function lsapclients() {
     create_ap --list-clients $(create_ap --list-running | tail -n 1 | cut -d" " -f1)
 }
 
-function thatonecommand() {
+function myhists() {
     cat ~/.zsh_history | grep -i "$1"
 }
 
 
-function newhotness() {
-    ls -altr | grep $@ |  tail -n 1 | tr -s " " | cut -d" " -f9
+function NH() {
+    ls -altr | grep -v "\.\|\.\."| grep $@ |  tail -n 1 | tr -s " " | cut -d" " -f11
 }
-
 
 function rev() {
     perl -e 'print reverse <>' $1
@@ -121,8 +211,24 @@ function stripcolor() {
     perl -pe 's/\e\[?.*?[\@-~]//g' $1
 }
 
+#tell me about it!
+function tmai() {
+	RET=$?
+	if [[ ${RET} == 1 ]]; then
+		notify-send -t 0 "FAILURE" "$(fortune)" -i ~/Pictures/horde.png
+	else
+		notify-send -t 0 "SUCCESS" "$(fortune)" -i ~/Pictures/clojure.png
+	fi
+}
+
+export AIRHEAD="4b825dc642cb6eb9a060e54bf8d69288fbee4904"
+
 function psgrep() {
     ps aux | grep -i $1
+}
+
+function fromepoch() {
+	date -d @$1
 }
 
 function epochms() {
@@ -131,6 +237,14 @@ function epochms() {
 
 function beatwork() {
     bash ~/.screenlayout/work.sh
+}
+
+function beathome() {
+    bash ~/.screenlayout/hom3.sh
+}
+
+function benormal() {
+    bash ~/.screenlayout/normal.sh
 }
 
 function getip() {
@@ -181,7 +295,7 @@ function vimfind() {
 }
 
 function ifind() {
-    find . -iname "$1"
+    find . -iname "*$1*"
 }
 
 function vimgrep() {
@@ -496,6 +610,10 @@ function git_prompt_string() {
     [ -n "$git_where" ] && echo "on %{$fg[magenta]%}${git_where#(refs/heads/|tags/)}$(parse_git_state)"
 }
 
+function this {
+    pwd | sc
+}
+
 function current_pwd {
     echo $(pwd | sed -e "s,^$HOME,~,")
 }
@@ -526,27 +644,26 @@ HISTFILE=~/.zsh_history
 # }}}
 
 # Zsh Hooks {{{
-function precmd {
-    # vcs_info
-    # Put the string "hostname::/full/directory/path" in the title bar:
-    echo -ne "\e]2;$PWD\a"
-
-    # Put the parentdir/currentdir in the tab
-    echo -ne "\e]1;$PWD:h:t/$PWD:t\a"
-}
-
-function set_running_app {
-    printf "\e]1; $PWD:t:$(history $HISTCMD | cut -b7- ) \a"
-}
-
-function preexec {
-    set_running_app
-}
-
-function postexec {
-    set_running_app
-}
-
+#function precmd {
+#    # vcs_info
+#    # Put the string "hostname::/full/directory/path" in the title bar:
+#    echo -ne "\e]2;$PWD\a"
+#
+#    # Put the parentdir/currentdir in the tab
+#    echo -ne "\e]1;$PWD:h:t/$PWD:t\a"
+#}
+#
+#function set_running_app {
+#    printf "\e]1; $PWD:t:$(history $HISTCMD | cut -b7- ) \a"
+#}
+#
+#function preexec {
+#    set_running_app
+#}
+#
+#function postexec {
+#    set_running_app
+#}
 # }}}
 
 
@@ -559,7 +676,10 @@ export PATH=/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin # Reorder PATH so local
 export PATH=$JAVA_HOME/jre/bin:$PATH
 export PATH=$PATH:~/bin
 export PATH=$PATH:~/.local/bin
+export PATH=$PATH:~/.local/share/JetBrains/Toolbox/bin
 export ECLIPSE_HOME=/usr/lib/eclipse
+export EUC=~/development/ndn/eucleo
+export TWO6=~/development/ndn/twosix
 # }}}
 
 # syntax highlight config {{{
@@ -572,17 +692,6 @@ ZSH_HIGHLIGHT_STYLES[history-expansion]='fg=magenta,bold'
 
 # }}}
 
-#NVM {{{
-[ -z "$NVM_DIR" ] && export NVM_DIR="$HOME/.nvm"
-source /usr/share/nvm/nvm.sh
-source /usr/share/nvm/bash_completion
-source /usr/share/nvm/install-nvm-exec
-source /usr/share/nvm/init-nvm.sh
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
-# }}}
-
 # ANDROID {{{
 export ANDROID_HOME=/opt/android-sdk
 export ANDROID_NDK_HOME=/opt/android-ndk
@@ -592,8 +701,10 @@ export PATH=$PATH:$ANDROID_HOME/platform-tools
 
 # env set up {{{
 if [[ -a ~/.pc-env-set-up ]]; then
-    echo -e "No matter where you go,"
-    echo -e "there you are."
+	if [[ $- == *i* ]]; then
+		echo -e "No matter where you go,"
+		echo -e "there you are."
+	fi
     #file found
     #command fortune
 else #file not found
@@ -603,6 +714,8 @@ else #file not found
 fi
 # }}}
 
+function () {
+}
 
 # work env set up {{{
 if [[ "$(box_name)" = "frostig" ]]; then
@@ -611,14 +724,56 @@ if [[ "$(box_name)" = "frostig" ]]; then
     export SHARE_NEXUS_PUSH="goody-fyne.twosix.local:26364"
     export SHARE_STORE="/var/run/media/price/My\ Passport/"
     export EUC_STORE="/var/run/media/price/A8B3-B830"
+	export TACCOM="/home/price/.m2/repository/share/taccom/android-app/2.0.0-SNAPSHOT/android-app-2.0.0-SNAPSHOT-debug.apk"
+	export TACMATE="/home/price/.m2/repository/share/tacmate/app/1.0.0-SNAPSHOT/app-1.0.0-SNAPSHOT-debug.apk"
+	export ATAK="/home/price/development/ndn/eucleo/ATAK/ATAK/build/outputs/apk/debug/ATAK-debug.apk"
+
+    function retac() {
+		setopt localoptions rmstarsilent
+        pushd && cd ~/development/ndn/eucleo/taccom && rm -rf ~/.m2/repository/share/taccom/*; g -x license clean build pTML; popd
+    }
+
+    function retac-harder-to-type() {
+		setopt localoptions rmstarsilent
+        pushd && cd ~/development/ndn/eucleo/taccom && rm -rf ~/.m2/repository/share/taccom/*; g -x test -x license clean build pTML; popd
+    }
+
+    function retacmate() {
+		setopt localoptions rmstarsilent
+        pushd && cd ~/development/ndn/eucleo/tacmate && rm -rf ~/.m2/repository/share/tacmate/*; g -x license clean build pTML; popd
+    }
+
+    function reatak() {
+		setopt localoptions rmstarsilent
+        pushd && cd ~/development/ndn/eucleo/ATAK/ATAK && rm -rf ~/development/ndn/eucleo/ATAK/ATAK/build/outputs/apk/debug/ATAK-debug.apk; g -x test clean pD; popd
+    }
+
+    function reswarm-harder-to-type() {
+		setopt localoptions rmstarsilent
+        pushd && cd ~/development/ndn/eucleo/swarm && ~/.m2/repository/share/swarm/*; g -x test clean build pTML; popd
+    }
+
+    function rendncrypto() {
+		setopt localoptions rmstarsilent
+        pushd && cd ~/development/ndn/twosix/CRYPTO/ndncrypto && ~/.m2/repository/share/ndncrypto/*; g -x lint -x test clean build pTML; popd
+    }
 fi
 # }}}
 
+# oh-my-zsh {{{
+#export ZSH=$HOME/.oh-my-zsh
+#ZSH_THEME="agnoster"
+#source $ZSH/oh-my-zsh.sh
+# }}}
+# nvm {{{
+#export NVM_DIR="${XDG_CONFIG_HOME/:-$HOME/.}nvm"
+#[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm
+source /usr/share/nvm/init-nvm.sh
+# }}}
 
 # MUST BE LAST LINE {{{
 source /home/price/.zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 # }}}
-
 
 #THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
 export SDKMAN_DIR="/home/price/.sdkman"
