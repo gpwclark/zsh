@@ -55,7 +55,9 @@ yay -Syu  && yay --noconfirm -S \
         fzf `# ctrl-r on crack` \
         scrot `# simple screenshot utility for X` \
         lsd `# better ls` \
-		ipcalc `# subnet calcuclator`
+        ipcalc `# subnet calcuclator` \
+        aspell `# check spelling on the CLI` \
+        aspell-en `# spelling dictionary for english`
 
 #devvim set up
 git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
