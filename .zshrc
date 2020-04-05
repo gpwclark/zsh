@@ -122,7 +122,7 @@ function zopd() {
 	popd
 }
 
-function remindMe() {
+function remindme() {
     remindMeSetRecurringReminder "$@" &
 }
 

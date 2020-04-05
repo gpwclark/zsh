@@ -20,7 +20,6 @@ git clone git@github.com:sstanfield/slsh
 git clone git@github.com:gpwclark/vcsh_mr.git
 pushd vcsh_mr && init.sh && popd && mr up
 
-
 #devvim set up
 git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
 git clone https://github.com/syl20bnr/spacemacs ~/.emacs.d
