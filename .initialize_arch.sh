@@ -58,5 +58,7 @@ yay -Syu  && yay --noconfirm -S \
         git-crypt `#  Transparent file encryption in Git`\
         kindd `#  easy to use bootable usb drive creator` \
         smartmontools `# hdd troubleshotting utilities` \
-        xcape `#  configure modifier keys to act as other keys when pressed and released on their own`
+        xcape `#  configure modifier keys to act as other keys when pressed and released on their own` \
+        lsdesktopf `# list available desktop files or search their contents` \
+        fbrokendesktop `# deteces broken Exex values in broken desktop files.`
 
