@@ -13,7 +13,6 @@ export GRADLE_OPTS=-Dorg.gradle.native=false
 setopt nocorrectall #keeps zsh from autocorrecting letting thefuck do that
 feh --bg-scale "$(cd ~/Pictures/bkrd && (find `pwd` -type f | sort -R | head -n 1))"
 #~/Pictures/prince_rama.png
-alias ls='lsd'
 
 function ll() {
 	ls -haltr
