@@ -9,12 +9,12 @@ mkdir -p ~/core
 
 which pacman
 if [[ $? == "0" ]]; then
-	~./.initialize_arch.sh
+	~/.initialize_arch.sh
 fi
 
 which apt
 if [[ $? == "0" ]]; then
-	~./.initialize_debian.sh
+	~/.initialize_debian.sh
 fi
 
 sudo systemctl enable NetworkManager

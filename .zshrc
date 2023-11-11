@@ -3,7 +3,7 @@ export GITHUB_USER="gpwclark"
 export GREP_COLOR='1;32'
 export MANPAGER="less -X" # Don’t clear the screen after quitting a manual page
 export EDITOR="vim"
-export CLICOLOR=1
+#export CLICOLOR=1
 # }}}
 
 # My Custom Config {{{
@@ -11,7 +11,7 @@ export JAVA_HOME=/lib/jvm/default
 export GRADLE_OPTS=-Dorg.gradle.native=false
 #eval "$(thefuck --alias fuck)"
 setopt nocorrectall #keeps zsh from autocorrecting letting thefuck do that
-feh --bg-scale "$(cd ~/Pictures/bkrd && (find `pwd` -type f | sort -R | head -n 1))"
+#feh --bg-scale "$(cd ~/Pictures/bkrd && (find `pwd` -type f | sort -R | head -n 1))"
 #~/Pictures/prince_rama.png
 
 function ll() {
@@ -36,8 +36,8 @@ function oldls() {
 # }}}
 
 # DIR_COLORS {{{
-eval `/usr/bin/dircolors -b ~/.dircolors`
-alias dir='dir --color'
+#eval `/usr/bin/dircolors -b ~/.dircolors`
+#alias dir='dir --color'
 #export TERM="xterm-256color"
 # }}}
 
@@ -89,12 +89,6 @@ function tmuxkill() {
 
 function gr() {
     cd $(git rev-parse --show-cdup)
-}
-
-function src_share() {
-    pushd
-    cd /home/price/development/ndn/eucleo/share_provisioning && source sourceme
-    popd
 }
 
 function zushd() {
@@ -234,18 +228,6 @@ function epochms() {
     date +%s%N | cut -b1-13
 }
 
-function beatwork() {
-    bash ~/.screenlayout/work.sh
-}
-
-function beathome() {
-    bash ~/.screenlayout/hom3.sh
-}
-
-function benormal() {
-    bash ~/.screenlayout/normal.sh
-}
-
 function getip() {
     ifconfig | grep -i wlp4 -A 1 | grep -i inet | tr -s " " | cut -d " " -f 3
 }
@@ -352,10 +334,6 @@ function DF () {
 
 function javarepl () {
     rlwrap java -jar ~/bin/java-repl.repo/build/libs/javarepl-dev.jar
-}
-
-function gowatch() {
-    mkdir -p ~/watched/ && scp $1 price@gpwclark.net:~/rtorrent_watch/ &&  mv $1 ~/watched/
 }
 
 # }}}
@@ -671,23 +649,20 @@ HISTFILE=~/.zsh_history
 #}}}
 
 # PATH Exports {{{
-export PATH=~/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin # Reorder PATH so local bin is first
-export PATH=$JAVA_HOME/jre/bin:$PATH
-export PATH=$PATH:~/bin
+export PATH=~/bin:$PATH # path to local bin is first
+export PATH=$PATH:$JAVA_HOME/jre/bin
 export PATH=$PATH:~/.local/bin
 export PATH=$PATH:~/.local/share/JetBrains/Toolbox/bin
 export ECLIPSE_HOME=/usr/lib/eclipse
-export EUC=~/development/ndn/eucleo
-export TWO6=~/development/ndn/twosix
 # }}}
 
 # syntax highlight config {{{
 #duplicate line but must be above all issues uses of ZSH_HIGHLIGHT*
-source /home/price/.zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-
-ZSH_HIGHLIGHT_HIGHLIGHTER=(main globbing history-expansion)
-ZSH_HIGHLIGHT_STYLES[globbing]='fg=red,bold'
-ZSH_HIGHLIGHT_STYLES[history-expansion]='fg=magenta,bold'
+# source /home/price/.zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+# 
+# ZSH_HIGHLIGHT_HIGHLIGHTER=(main globbing history-expansion)
+# ZSH_HIGHLIGHT_STYLES[globbing]='fg=red,bold'
+# ZSH_HIGHLIGHT_STYLES[history-expansion]='fg=magenta,bold'
 
 # }}}
 
@@ -713,69 +688,7 @@ else #file not found
 fi
 # }}}
 
-function () {
-}
-
-# work env set up {{{
-if [[ "$(box_name)" = "frostig" ]]; then
-    #set up nexus
-    export SHARE_NEXUS="goody-fyne.twosix.local:26363"
-    export SHARE_NEXUS_PUSH="goody-fyne.twosix.local:26364"
-    export SHARE_STORE="/var/run/media/price/My\ Passport/"
-    export EUC_STORE="/var/run/media/price/A8B3-B830"
-	export TACCOM="/home/price/.m2/repository/share/taccom/android-app/2.0.0-SNAPSHOT/android-app-2.0.0-SNAPSHOT-debug.apk"
-	export TACMATE="/home/price/.m2/repository/share/tacmate/app/1.0.0-SNAPSHOT/app-1.0.0-SNAPSHOT-debug.apk"
-	export ATAK="/home/price/development/ndn/eucleo/ATAK/ATAK/build/outputs/apk/debug/ATAK-debug.apk"
-
-    function retac() {
-		setopt localoptions rmstarsilent
-        pushd && cd ~/development/ndn/eucleo/taccom && rm -rf ~/.m2/repository/share/taccom/*; g -x license clean build pTML; popd
-    }
-
-    function retac-harder-to-type() {
-		setopt localoptions rmstarsilent
-        pushd && cd ~/development/ndn/eucleo/taccom && rm -rf ~/.m2/repository/share/taccom/*; g -x test -x license clean build pTML; popd
-    }
-
-    function retacmate() {
-		setopt localoptions rmstarsilent
-        pushd && cd ~/development/ndn/eucleo/tacmate && rm -rf ~/.m2/repository/share/tacmate/*; g -x license clean build pTML; popd
-    }
-
-    function reatak() {
-		setopt localoptions rmstarsilent
-        pushd && cd ~/development/ndn/eucleo/ATAK/ATAK && rm -rf ~/development/ndn/eucleo/ATAK/ATAK/build/outputs/apk/debug/ATAK-debug.apk; g -x test clean pD; popd
-    }
-
-    function reswarm-harder-to-type() {
-		setopt localoptions rmstarsilent
-        pushd && cd ~/development/ndn/eucleo/swarm && ~/.m2/repository/share/swarm/*; g -x test clean build pTML; popd
-    }
-
-    function rendncrypto() {
-		setopt localoptions rmstarsilent
-        pushd && cd ~/development/ndn/twosix/CRYPTO/ndncrypto && ~/.m2/repository/share/ndncrypto/*; g -x lint -x test clean build pTML; popd
-    }
-fi
-# }}}
-
-# oh-my-zsh {{{
-#export ZSH=$HOME/.oh-my-zsh
-#ZSH_THEME="agnoster"
-#source $ZSH/oh-my-zsh.sh
-# }}}
-# nvm {{{
-#export NVM_DIR="${XDG_CONFIG_HOME/:-$HOME/.}nvm"
-#[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm
-source /usr/share/nvm/init-nvm.sh
-# }}}
-
-# MUST BE LAST LINE {{{
-source /home/price/.zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-# }}}
-
-eval "$(rbenv init -)"
-
-#THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
-export SDKMAN_DIR="/home/price/.sdkman"
-[[ -s "/home/price/.sdkman/bin/sdkman-init.sh" ]] && source "/home/price/.sdkman/bin/sdkman-init.sh"
+#if [[ -f '/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh' ]]; then
+#	source '/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh'
+#	export NIX_PATH="$HOME/.nix-defexpr"
+#fi
