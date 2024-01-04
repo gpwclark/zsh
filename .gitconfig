@@ -18,7 +18,7 @@
 	cmd = meld "$LOCAL" "$MERGED" "$REMOTE" --output "$MERGED"
 	#cmd = meld "$LOCAL" "$BASE" "$REMOTE" --output "$MERGED"
 [alias]
-    mybranch = branch --remote --no-merged=HEAD --sort=-committerdate
+    sortcomm = branch --remote --no-merged=HEAD --sort=-committerdate
 	track = ls-tree -r master --name-only
 	track-all = log --pretty=format: --name-only --diff-filter=A | sort - | sed '/^$/d'
     wow = log --pretty=format:\"%h %s\" --graph
