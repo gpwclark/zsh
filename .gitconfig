@@ -18,6 +18,9 @@
 	cmd = meld "$LOCAL" "$MERGED" "$REMOTE" --output "$MERGED"
 	#cmd = meld "$LOCAL" "$BASE" "$REMOTE" --output "$MERGED"
 [alias]
+	files-on-branch = "!f() {\
+				 git ls-tree -r $1 --name-only;\
+            };f"
     sortcomm = branch --remote --no-merged=HEAD --sort=-committerdate
 	track = ls-tree -r master --name-only
 	track-all = log --pretty=format: --name-only --diff-filter=A | sort - | sed '/^$/d'
@@ -58,3 +61,6 @@
 	required = true
 	clean = git-lfs clean -- %f
 	smudge = git-lfs smudge -- %f
+
+[includeIf "gitdir:~/development/work/"]
+    path = ~/development/work/.gitconfig
