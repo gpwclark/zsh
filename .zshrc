@@ -692,3 +692,4 @@ fi
 #	source '/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh'
 #	export NIX_PATH="$HOME/.nix-defexpr"
 #fi
+. "$HOME/.cargo/env"
