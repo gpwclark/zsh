@@ -27,6 +27,7 @@ export PATH="${PATH}:${HOME}/bin"
 ## Provider 1: id: 0x242 cap: 0x2, Sink Output crtcs: 4 outputs: 5 associated providers: 1 name:NVIDIA-G0
 
 alias ll="ls -lathr"
+alias tmuxls="tmux list-sessions"
 # [graphics hell](https://wiki.gentoo.org/wiki/Hybrid_graphics)
 #price@brumal ~ $ sudo  nvidia-xconfig --prime
 #
@@ -47,3 +48,7 @@ alias ll="ls -lathr"
 xrandr --setprovideroutputsource modesetting NVIDIA-0
 #xrandr --auto
 #xrandr --setprovideroffloadsink  1 0
+#~/.screenlayout/i3_apt205_sitting_desk.sh  || ~/.screenlayout/i3_apt205_right_only_sitting_desk.sh || ~/.screenlayout/i3_apt205_small_standing_desk.sh  || ~/.screenlayout/i3_apt205_standing_desk.sh  || ~/.screenlayout/i3_blackweave_lenovo.sh
+#
+export BROWSER="/usr/bin/firefox"
+export PATH=$HOME/.local/bin:$PATH

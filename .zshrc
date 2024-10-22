@@ -3,6 +3,7 @@ export GITHUB_USER="gpwclark"
 export GREP_COLOR='1;32'
 export MANPAGER="less -X" # Don’t clear the screen after quitting a manual page
 export EDITOR="vim"
+export BROWSER="/usr/bin/firefox"
 #export CLICOLOR=1
 # }}}
 
@@ -520,6 +521,30 @@ function prompt_char {
 function box_name {
     [ -f ~/.box-name ] && cat ~/.box-name || hostname -s
 }
+
+if [[ -e /etc/gentoo-release ]]; then
+#* If you want to enable Portage completions and Gentoo prompt,                                                                               13:42:32 [61/138]
+# * emerge app-shells/gentoo-zsh-completions and add
+# *      autoload -U compinit promptinit
+# *      compinit
+# *      promptinit; prompt gentoo
+# * to your ~/.zshrc
+# * Also, if you want to enable cache for the completions, add
+# *      zstyle ':completion::complete:*' use-cache 1
+# * to your ~/.zshrc
+# * Note that a system zprofile startup file is installed. This will override
+# * PATH and possibly other variables that a user may set in ~/.zshenv.
+# * Custom PATH settings and similar overridden variables can be moved to ~/.zprofile
+# * or other user startup files that are sourced after the system zprofile.
+# * If PATH must be set in ~/.zshenv to affect things like non-login ssh shells,
+# * one method is to use a separate path-setting file that is conditionally sourced
+# * in ~/.zshenv and also sourced from ~/.zprofile. For more information, see the
+# * zshenv example in /usr/share/doc/zsh-5.9-r6/StartupFiles/.
+# * See https://wiki.gentoo.org/wiki/Zsh/HOWTO for more introduction documentation.
+    autoload -U compinit promptinit
+    compinit
+    promptinit; prompt gentoo
+fi
 
 # http://blog.joshdick.net/2012/12/30/my_git_prompt_for_zsh.html
 # copied from https://gist.github.com/4415470
