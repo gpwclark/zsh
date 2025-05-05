@@ -712,6 +712,16 @@ else #file not found
     touch ~/.pc-env-set-up
 fi
 # }}}
+#
+
+# pnpm
+export PNPM_HOME="/home/price/.local/share/pnpm"
+case ":$PATH:" in
+  *":$PNPM_HOME:"*) ;;
+  *) export PATH="$PNPM_HOME:$PATH" ;;
+esac
+# pnpm end
+
 
 #if [[ -f '/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh' ]]; then
 #	source '/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh'

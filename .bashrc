@@ -52,3 +52,14 @@ xrandr --setprovideroutputsource modesetting NVIDIA-0
 #
 export BROWSER="/usr/bin/firefox"
 export PATH=$HOME/.local/bin:$PATH
+
+# let's just make sure we don't decide to go to sleep unless I say so!
+xset s off && xset -dpms
+
+# pnpm
+export PNPM_HOME="/home/price/.local/share/pnpm"
+case ":$PATH:" in
+  *":$PNPM_HOME:"*) ;;
+  *) export PATH="$PNPM_HOME:$PATH" ;;
+esac
+# pnpm end

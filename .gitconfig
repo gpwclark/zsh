@@ -2,46 +2,52 @@
 	name = gpwclark
 	email = gpwclark@gmail.com
 [core]
-    editor = vim
+	editor = vim
 	pager = less -x1,5
+	excludesfile = ~/.gitignore
 [diff]
-    tool = meld
-#	external = git-meld
+	tool = meld
+	algorithm = histogram
+	colorMoved = plain
+	mnemonicPrefix = true
+	renames = true
 [difftool]
 	prompt = false
 [difftool "meld"]
 	cmd = meld "$LOCAL" "$REMOTE"
 [merge]
 	tool = meld
+	conflictstyle = zdiff3
 [mergetool "meld"]
 	# Choose one of these 2 lines (not both!) explained below.
 	cmd = meld "$LOCAL" "$MERGED" "$REMOTE" --output "$MERGED"
 	#cmd = meld "$LOCAL" "$BASE" "$REMOTE" --output "$MERGED"
 [alias]
 	files-on-branch = "!f() {\
-				 git ls-tree -r $1 --name-only;\
-            };f"
-    sortcomm = branch --remote --no-merged=HEAD --sort=-committerdate
+		git ls-tree -r $1 --name-only;\
+		};f"
+	sortcomm = branch --remote --no-merged=HEAD --sort=-committerdate
 	track = ls-tree -r master --name-only
 	track-all = log --pretty=format: --name-only --diff-filter=A | sort - | sed '/^$/d'
-    wow = log --pretty=format:\"%h %s\" --graph
-    change-commits = "!f() { VAR=$1; OLD=$2; NEW=$3; shift 3; git filter-branch --env-filter \"if [[ $`echo $VAR` = \\\"$OLD\\\" ]]; then export $VAR=\\\"$NEW\\\"; fi\" $@; }; f "
-    prom = pull --rebase
-    pom = pull
-    aa = add --all
-    dc = diff --cached
-    di = diff
-    pullff = pull --ff-only
-    ls = log --oneline
-    newslite = "!f() {\
-                git diff-tree --no-commit-id --name-only -r  $1 $2;\
-            };f"
-    news = "!f() {\
-                git diff --no-commit-id -r  $1 $2;\
-            };f"
-    addmod = "!f() {\
-				git status | grep -iE '.*modified.*|.*deleted.*' | tr -s '[[:blank:]]' | cut -d' ' -f2 | xargs git add;\
-            };f"
+	wow = log --pretty=format:\"%h %s\" --graph
+	change-commits = "!f() { VAR=$1; OLD=$2; NEW=$3; shift 3; git filter-branch --env-filter \"if [[ $`echo $VAR` = \\\"$OLD\\\" ]]; then export $VAR=\\\"$NEW\\\"; fi\" $@; }; f "
+	prom = pull --rebase
+	pom = pull
+	aa = add --all
+	dc = diff --cached
+	di = diff
+	co = checkout
+	pullff = pull --ff-only
+	ls = log --oneline
+	newslite = "!f() {\
+		git diff-tree --no-commit-id --name-only -r  $1 $2;\
+		};f"
+	news = "!f() {\
+		git diff --no-commit-id -r  $1 $2;\
+		};f"
+	addmod = "!f() {\
+		git status | grep -iE '.*modified.*|.*deleted.*' | tr -s '[[:blank:]]' | cut -d' ' -f2 | xargs git add;\
+		};f"
 	cara = commit --amend --reset-author
 	all-files = ls-tree --name-only -r
 	files-since-ever = "!f() {\
@@ -50,12 +56,14 @@
 	logsha = "log --format=format:\"%C(auto)%H %C(green)%aN%Creset %s\""
 	branch-activity = "!sh -c 'git log -n1 --pretty=format:\"%aI%d\n\" $1 --' -"
 	rank = shortlog -s -n --no-merges
+	bough = branch --sort=committerdate 
 [color]
 	ui = auto
 [init]
 	defaultBranch = main
 [rerere]
 	enabled = true
+	autoupdate = true
 [filter "lfs"]
 	process = git-lfs filter-process
 	required = true
@@ -63,6 +71,21 @@
 	smudge = git-lfs smudge -- %f
 
 [includeIf "gitdir:~/development/work/"]
-    path = ~/development/work/.gitconfig
+	path = ~/development/work/.gitconfig
 [pager]
 	branch = false
+[column]
+	ui = auto
+[branch]
+	sort = -committerdate
+[tag]
+	sort = version:refname
+[push]
+	default = simple
+	autoSetupRemote = true
+	followTags = true
+# makes it s.t. if origin/foo is deleted then foo branch will be deleted locally
+#[fetch]
+#	prune = true
+#	pruneTags = true
+#	all = true
