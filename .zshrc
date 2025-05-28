@@ -522,6 +522,15 @@ function box_name {
     [ -f ~/.box-name ] && cat ~/.box-name || hostname -s
 }
 
+if [[ $(box_name) -eq "frostig" ]]; then
+	# for dioxus
+	export WEBKIT_DISABLE_COMPOSITING_MODE=1
+	xset -dpms
+	xset s off
+	echo "Turned off screensaver/sleep in X"
+	PATH="${PATH}:~/.local/share/JetBrains/Toolbox/bin/"
+fi
+
 if [[ -e /etc/gentoo-release ]]; then
 #* If you want to enable Portage completions and Gentoo prompt,                                                                               13:42:32 [61/138]
 # * emerge app-shells/gentoo-zsh-completions and add
@@ -544,6 +553,7 @@ if [[ -e /etc/gentoo-release ]]; then
     autoload -U compinit promptinit
     compinit
     promptinit; prompt gentoo
+	feh --bg-scale ~/gentoo-tenyearscompiling.jpg
 fi
 
 # http://blog.joshdick.net/2012/12/30/my_git_prompt_for_zsh.html
@@ -707,8 +717,8 @@ if [[ -a ~/.pc-env-set-up ]]; then
     #file found
     #command fortune
 else #file not found
-    echo "Run Migrations";
-    bash .initialize_environment.sh
+    echo "Run Migrations, FIXME";
+    #bash .initialize_environment.sh
     touch ~/.pc-env-set-up
 fi
 # }}}
@@ -728,3 +738,9 @@ esac
 #	export NIX_PATH="$HOME/.nix-defexpr"
 #fi
 . "$HOME/.cargo/env"
+
+# The next line updates PATH for the Google Cloud SDK.
+if [ -f '/home/price/Downloads/gcloud-api/google-cloud-sdk/path.zsh.inc' ]; then . '/home/price/Downloads/gcloud-api/google-cloud-sdk/path.zsh.inc'; fi
+
+# The next line enables shell command completion for gcloud.
+if [ -f '/home/price/Downloads/gcloud-api/google-cloud-sdk/completion.zsh.inc' ]; then . '/home/price/Downloads/gcloud-api/google-cloud-sdk/completion.zsh.inc'; fi

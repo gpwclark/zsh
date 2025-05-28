@@ -14,8 +14,6 @@ if [[ $- != *i* ]] ; then
 	return
 fi
 
-feh --bg-scale /home/price/gentoo-tenyearscompiling.jpg
-
 # Put your fun stuff here.
 . "$HOME/.cargo/env"
 
@@ -45,7 +43,7 @@ alias tmuxls="tmux list-sessions"
 #
 # Just type nvidia-smi in the terminal. Then check for the percentage of usage.
 # That will indicate which GPU is in us
-xrandr --setprovideroutputsource modesetting NVIDIA-0
+#xrandr --setprovideroutputsource modesetting NVIDIA-0
 #xrandr --auto
 #xrandr --setprovideroffloadsink  1 0
 #~/.screenlayout/i3_apt205_sitting_desk.sh  || ~/.screenlayout/i3_apt205_right_only_sitting_desk.sh || ~/.screenlayout/i3_apt205_small_standing_desk.sh  || ~/.screenlayout/i3_apt205_standing_desk.sh  || ~/.screenlayout/i3_blackweave_lenovo.sh
