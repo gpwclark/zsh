@@ -1,0 +1,119 @@
+(prn (version))
+
+; load the core lib
+(load "core.slosh")
+
+#%
+Usage: (file-to-str /path/to/file)
+
+Get contents of file to string.
+
+Section: user-shell
+%#
+(defn file-to-str (file)
+     (let (tst-file-read (fopen file :read))
+        (defer (fclose tst-file-read))
+        (iter::reduce
+            (iter::iter tst-file-read)
+            ""
+            (fn (x y)
+                (if (= (len x) 0)
+                    (str x (str-trim y))
+                    (str x (str-trim y) \newline))))))
+
+
+;;(sh "echo CURR_PATH: $PATH")
+
+;;(sh "export PATH=/bin:/usr/local/bin:~/bin:~/.cargo/bin:~/.nix-profile/bin/:/usr/bin/:$PATH")
+
+(defn parse-git-branch () (let (branch ($sh "git rev-parse --abbrev-ref HEAD 2>/dev/null"))
+	(if (= branch "")
+		(str "")
+		(str "(" branch ")"))))
+
+(defn get-pwd ()
+	(str-replace (env 'PWD) (env 'HOME) "~"))
+
+(defn set-prompt-tail (last-status)
+    (let (
+        debug (if (str-contains (version) "debug") "[DEBUG]" "")
+        status (if (= last-status 0) "" (str "\x1b[31m(" last-status ")\x1b[39m"))
+        )
+    (if (= *euid* 0)
+        (str "\x1b[31m" status "\n\x1b[31m" debug "λ #\x1b[39m ")
+        (str "\x1b[32m" status "\n\x1b[32m" debug "λ >\x1b[39m "))))
+
+
+(def *ns* "SLOSH")
+
+(defn __prompt ()
+    (str "\x1b[32m[" *ns* "]:" (env "HOST") ":\x1b[34m" (str-trim! (get-pwd)) "/\x1b[37m" (parse-git-branch) (set-prompt-tail *last-status*)))
+
+(sh "alias ls='/bin/ls --color -F'")
+(sh "alias ll='/bin/ls --color -Flathr'")
+(sh "alias vi=nvim")
+(sh "alias vim=nvim")
+(sh "export LC_ALL=en_US.UTF-8")
+
+; load and activate syntax highlighting on the prompt
+(load "sh-color.slosh")
+(load "~/.config/so-lush/slosh/shell-docs.slosh")
+(import shell-docs)
+
+#%
+Usage: (file-to-str "/path/to/file")
+
+Get contents of file to string.
+
+Section: user-shell
+%#
+(defn file-to-str (file)
+     (let (tst-file-read (fopen file :read))
+        (defer (fclose tst-file-read))
+        (iter::reduce
+            (iter::iter tst-file-read)
+            ""
+            (fn (x y)
+                (if (= (len x) 0)
+                    (str x (str-trim y))
+                    (str x (str-trim y) \newline))))))
+
+;;(panic-display (str-trim (file-to-str "/etc/hostname")))
+(def *hostname* (str-trim (file-to-str "/etc/hostname")))
+(def *hostname-file* (str "~/.config/slosh/" *hostname* ".slosh"))
+(load *hostname-file*)
+(def *hostname-sym* (->sym *hostname*))
+(import *hostname-sym*)
+
+;; linux
+;;(defmacro sc () $(xclip -selection c))
+
+(syntax-on)
+
+;; i'm fun {{{
+(prn "                                           ██╗")
+(prn "                                           ██║")
+(prn "                                           ██║")
+(prn "      ██████████████████████████████████╗  ██║")
+(prn "      ██╔═════════════════════════════██║  ██║")
+(prn "      ██║                             ██║  ██║")
+(prn "███████╗██╗      ███████╗██╗  ██╗     ██║  ██║")
+(prn "██╔════╝██║      ██╔════╝██║  ██║     ██║  ██║")
+(prn "███████╗██║█████╗███████╗███████║     ██║  ██║")
+(prn "╚════██║██║╚════╝╚════██║██╔══██║     ██║  ██║")
+(prn "███████║███████╗ ███████║██║  ██║     ██║  ██║")
+(prn "╚══════╝╚══════╝ ╚══════╝╚═╝  ╚═╝     ██║  ╚═╝")
+(prn " ██╗  ██║                             ██║")
+(prn " ██║  ██████████████████████████████████║")
+(prn " ██║  ╚═════════════════════════════════╝")
+(prn " ██║")
+(prn " ██║  ████████████████████████████████████████████╗")
+(prn " ██║  ╚═══════════════════════════════════════════╝")
+(prn " ██║")
+(prn " ╚═╝")
+
+(prn "		Hey, hey, hey. Don't be mean.")
+(prn "		We don't have to be mean because,")
+(prn "		remember, no matter where you go,")
+(prn "		there you are.")
+(prn (str "			- Buckaroo Banzai"))
