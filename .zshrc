@@ -522,7 +522,7 @@ function box_name {
     [ -f ~/.box-name ] && cat ~/.box-name || hostname -s
 }
 
-if [[ $(box_name) -eq "frostig" ]]; then
+if [[ $(box_name) -eq "brumal" ]] || [[ $(box_name) -eq "frostig" ]]; then
 	# for dioxus
 	export WEBKIT_DISABLE_COMPOSITING_MODE=1
 	xset -dpms
