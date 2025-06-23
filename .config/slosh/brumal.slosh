@@ -1,0 +1,14 @@
+(with-ns brumal
+;; linux
+#%
+the best
+try opening stdout AND flushing it
+instead or writing to write to a normal file
+%#
+(defmacro sc () (let (in (fopen :stdin)
+					val (read-all in)
+					val (apply str val))
+	(let ([pid, st-in] (sh :< "xclip -selection c"))
+		(str-trim! val)
+		(str-trim! val)
+		(fpr st-in val)))))
