@@ -2,6 +2,8 @@
 
 ; load the core lib
 (load "core.slosh")
+(load "iterator.slosh")
+(import iter)
 
 #%
 Usage: (file-to-str /path/to/file)
@@ -61,8 +63,16 @@ $(alias tmuxls="tmux list-sessions")
 
 ; load and activate syntax highlighting on the prompt
 (load "sh-color.slosh")
-(load "~/.config/so-lush/slosh/shell-docs.slosh")
-(import shell-docs)
+#|
+(def so-lush "~/.config/so-lush/slosh")
+(when (fs-dir? so-lush)
+	(do
+		(set! *load-path* '("~/.config/slosh/" so-lush))
+		(load "shell-docs.slosh")
+		(import shell-docs)
+		(load "zfs-docs.slosh")
+		(import zfs-docs)))
+|#
 
 #%
 Usage: (file-to-str "/path/to/file")
