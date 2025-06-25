@@ -764,10 +764,13 @@ eval "$(flox activate -d ~/.config/flox)"
 #fi
 # /Users/price/bin:/Users/price/.cargo/bin:/Users/price/.nix-profile/bin:/nix/var/nix/profiles/default/bin:/usr/local/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin:/Library/Apple/usr/bin:/Users/price/Library/Application Support/JetBrains/Toolbox/scripts:/lib/jvm/default/jre/bin:/Users/price/.local/bin:/Users/price/.local/share/JetBrains/Toolbox/bin:/opt/android-sdk/tools:/opt/android-sdk/platform-tools
 
-## Nix
 #if [ -e '/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh' ]; then
 #··. '/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh'
 #fi
+## Nix
+if [ -e '/home/price/.nix-profile/etc/profile.d/nix.sh' ]; then
+	. ~/.nix-profile/etc/profile.d/nix.sh
+fi
 ## End Nix
 
 . "$HOME/.cargo/env"

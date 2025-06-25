@@ -4,6 +4,32 @@
 (load "core.slosh")
 (load "iterator.slosh")
 (import iter)
+; load and activate syntax highlighting on the prompt
+(load "sh-color.slosh")
+
+(def so-lush "/home/price/.config/so-lush/slosh")
+(when (fs-exists? so-lush)
+	(do
+		(vec-push! *load-path* so-lush)
+		(prn "load path: " *load-path*)
+		;;(load "shell-docs.slosh")
+		;;(import shell-docs)
+		))
+#|
+(def so-lush "~/.config/so-lush/slosh")
+(when (fs-dir? so-lush)
+	(do
+		(set! *load-path* '("~/.config/slosh/" so-lush))
+		(load "shell-docs.slosh")
+		(import shell-docs)
+		(load "zfs-docs.slosh")
+		(import zfs-docs)))
+
+(load "~/.config/so-lush/slosh/shell-docs.slosh")
+(import shell-docs)
+(load "shell-docs.slosh")
+(import shell-docs)
+|#
 
 #%
 Usage: (file-to-str /path/to/file)
@@ -61,19 +87,6 @@ $(alias tmuxls="tmux list-sessions")
 ;;(sh "export UCD_DIR=/home/price/unicode/ucd-15.0.0/")
 ;;(sh "export UCD_DIR=/home/price/unicode2/")
 
-; load and activate syntax highlighting on the prompt
-(load "sh-color.slosh")
-#|
-(def so-lush "~/.config/so-lush/slosh")
-(when (fs-dir? so-lush)
-	(do
-		(set! *load-path* '("~/.config/slosh/" so-lush))
-		(load "shell-docs.slosh")
-		(import shell-docs)
-		(load "zfs-docs.slosh")
-		(import zfs-docs)))
-|#
-
 #%
 Usage: (file-to-str "/path/to/file")
 
@@ -102,7 +115,7 @@ Section: user-shell
 ;; linux
 ;;(defmacro sc () $(xclip -selection c))
 
-(syntax-on)
+;;(syntax-on)
 
 ;; i'm fun {{{
 (prn "                                           ██╗")
