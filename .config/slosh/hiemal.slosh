@@ -4,6 +4,8 @@
 the best
 try opening stdout AND flushing it
 instead or writing to pbcopy write to a normal file
+
+Section: hiemal
 %#
 (defmacro sc () (let (in (fopen :stdin)
 					val (read-all in)

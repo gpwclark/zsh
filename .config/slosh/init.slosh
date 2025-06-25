@@ -1,20 +1,21 @@
 (prn (version))
 
-; load the core lib
+;; load the core lib
 (load "core.slosh")
 (load "iterator.slosh")
 (import iter)
-; load and activate syntax highlighting on the prompt
+;; load and activate syntax highlighting on the prompt
 (load "sh-color.slosh")
 
-(def so-lush "/home/price/.config/so-lush/slosh")
+(def so-lush "~/.config/so-lush/slosh/")
 (when (fs-exists? so-lush)
 	(do
 		(vec-push! *load-path* so-lush)
-		(prn "load path: " *load-path*)
-		;;(load "shell-docs.slosh")
-		;;(import shell-docs)
-		))
+		(prn "load-path*:" *load-path*)))
+
+
+(load "shell-docs.slosh")
+(import shell-docs)
 #|
 (def so-lush "~/.config/so-lush/slosh")
 (when (fs-dir? so-lush)
@@ -37,6 +38,7 @@ Usage: (file-to-str /path/to/file)
 Get contents of file to string.
 
 Section: user-shell
+
 %#
 (defn file-to-str (file)
      (let (tst-file-read (fopen file :read))
