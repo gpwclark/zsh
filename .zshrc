@@ -550,6 +550,8 @@ if [[ $(box_name) -eq "brumal" ]] || [[ $(box_name) -eq "frostig" ]]; then
 	xset s off
 	echo "Turned off screensaver/sleep in X"
 	PATH="${PATH}:~/.local/share/JetBrains/Toolbox/bin/"
+	xmodmap -e "clear lock" #disable caps lock switch
+	xmodmap -e "keysym Caps_Lock = Escape" #set caps_lock as escape
 fi
 
 if [[ -e /etc/gentoo-release ]]; then
