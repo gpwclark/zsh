@@ -1,5 +1,7 @@
 (prn (version))
 
+;;;; Common imports and env setup.
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; load the core lib
 (load "core.slosh")
 (load "iterator.slosh")
@@ -20,6 +22,9 @@
 	(load "shell-docs.slosh")
 	(import shell-docs)))
 
+
+;;;; common helpers
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 #%
 Usage: (file-to-str /path/to/file)
 
@@ -58,25 +63,6 @@ Section: user-shell
         (str "\x1b[31m" status "\n\x1b[31m" debug "λ #\x1b[39m ")
         (str "\x1b[32m" status "\n\x1b[32m" debug "λ >\x1b[39m "))))
 
-
-(def *ns* "SLOSH")
-
-(defn __prompt ()
-    (str "\x1b[32m[" *ns* "]:" (env "HOST") ":\x1b[34m" (str-trim! (get-pwd)) "/\x1b[37m" (parse-git-branch) (set-prompt-tail *last-status*)))
-
-(sh "alias ls='/bin/ls --color -F'")
-(sh "alias ll='/bin/ls --color -Flathr'")
-(sh "alias vi=nvim")
-(sh "alias vim=nvim")
-$(alias tmuxls="tmux list-sessions")
-;;(sh "echo CURR_PATH: $PATH")
-;;(sh "export PATH=/bin:/usr/local/bin:~/bin:~/.cargo/bin:~/.nix-profile/bin/:/usr/bin/:$PATH")
-(sh "export PATH=~/.cargo/bin:/bin:/usr/bin:/usr/local/bin:~/bin:/opt/jetbrains-toolbox:$PATH")
-(sh "export LC_ALL=en_US.UTF-8")
-;; for burntsishi ucd-generate library
-;;(sh "export UCD_DIR=/home/price/unicode/ucd-15.0.0/")
-;;(sh "export UCD_DIR=/home/price/unicode2/")
-
 #%
 Usage: (file-to-str "/path/to/file")
 
@@ -95,14 +81,48 @@ Section: user-shell
                     (str x (str-trim y))
                     (str x (str-trim y) \newline))))))
 
+
+;;;; Custom imports
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;(panic-display (str-trim (file-to-str "/etc/hostname")))
 (def *hostname* (str-trim (file-to-str "/etc/hostname")))
+(def *hostname-secrets* (str *hostname* "-secrets"))
 (def *hostname-file* (str "~/.config/slosh/" *hostname* ".slosh"))
+(def *hostname-secrets-file* (str "~/.config/slosh/" *hostname-secrets* ".slosh"))
 (load *hostname-file*)
+(load *hostname-secrets-file*)
 (def *hostname-sym* (->sym *hostname*))
+(def *hostname-secrets-sym* (->sym *hostname*))
 (import *hostname-sym*)
+(import *hostname-secrets-sym*)
+(load "secrets.slosh")
+(import secrets)
 
-;; linux
+
+;;;; Prompt and aliases
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(def *ns* "SLOSH")
+
+(defn __prompt ()
+    (str "\x1b[32m[" *ns* "]:" (env "HOST") ":\x1b[34m" (str-trim! (get-pwd)) "/\x1b[37m" (parse-git-branch) (set-prompt-tail *last-status*)))
+
+(sh "alias ls='/bin/ls --color -F'")
+(sh "alias ll='/bin/ls --color -Flathr'")
+(sh "alias vi=nvim")
+(sh "alias vim=nvim")
+$(alias tmuxls="tmux list-sessions")
+;;(sh "echo CURR_PATH: $PATH")
+;;(sh "export PATH=/bin:/usr/local/bin:~/bin:~/.cargo/bin:~/.nix-profile/bin/:/usr/bin/:$PATH")
+(sh "export PATH=~/.cargo/bin:/bin:/usr/bin:/usr/local/bin:~/bin:/opt/jetbrains-toolbox:$PATH")
+(sh "export LC_ALL=en_US.UTF-8")
+;; for burntsishi ucd-generate library
+;;(sh "export UCD_DIR=/home/price/unicode/ucd-15.0.0/")
+;;(sh "export UCD_DIR=/home/price/unicode2/")
+
+
+;;;; linux
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
 ;;(defmacro sc () $(xclip -selection c))
 
 ;;(syntax-on)
