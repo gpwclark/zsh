@@ -1,3 +1,7 @@
+;; any accompanying functions OR files might be referring to slosh files that live
+;; here: https://github.com/gpwclark/so-lush/tree/main/.config/so-lush/slosh
+;; or here: https://github.com/gpwclark/zsh/tree/main/.config/slosh
+;; *** I highly recommend using vcsh and mr to manage [all your (repos/dotfiles) ***
 (prn (version))
 
 ;;;; Common imports and env setup.
@@ -10,8 +14,7 @@
 (load "sh-color.slosh")
 (load "color-palette.slosh")
 
-(def *home* (get (glob "~") 0))
-(def so-lush (str *home* "/.config/so-lush/slosh/"))
+(def so-lush (str (env "HOME") "/.config/so-lush/slosh/"))
 (when (fs-exists? so-lush)
 	(do
 		(vec-push! *load-path* so-lush)
@@ -19,9 +22,9 @@
 
 
 (when (fs-exists? so-lush)
-	(do	
-	(load "shell-docs.slosh")
-	(import shell-docs)))
+	(do
+        (load "shell-docs.slosh")
+        (import shell-docs)))
 
 
 ;;;; common helpers
@@ -58,7 +61,7 @@ Section: user-shell
 (defn set-prompt-tail (last-status color-prompt)
     (let (debug (if (str-contains (version) "debug") "[DEBUG]" "")
          status (if (= last-status 0) "" (str *fg-red* "(" last-status ")" *fg-default*))
-	 alt-work-tree (if (nil? (get-env "SLOSH_ALT_REPO")) "" (str "\n" *fg-red* "(altrepo): " (get-env "SLOSH_ALT_REPO") *fg-default*)))
+	 alt-work-tree (if (nil? (env "SLOSH_ALT_REPO")) "" (str "\n" *fg-red* "(altrepo): " (env "SLOSH_ALT_REPO") *fg-default*)))
     (if (= *euid* 0)
         (str *fg-red* alt-work-tree status "\n" *fg-red* debug "λ #" *fg-default* " ")
         (str color-prompt alt-work-tree status "\n" color-prompt debug "λ >" *fg-default* " "))))
@@ -145,19 +148,24 @@ Section: user-shell
 ;;;; Prompt and aliases
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (def *ns* "SLOSH")
+;; (def tst-hash {:key1  "val one" 'key2 "val two" "key3" "val three" \S "val S"})
 (defn __prompt ()
-	(let    (palettes (color-palette::make-palettes)
-		palette-indices (random-seq (len palettes) 2 (get-env "HOST"))
+	(let    (device-specific-seeds {"hiemal"  "All solutions have problems and all problems have solutions!"}
+		host-val (get-hostname)
+		seed-append (get device-specific-seeds host-val)
+		host-val (if (nil? seed-append) host-val (str seed-append host-val))
+		palettes (color-palette::make-palettes)
+		palette-indices (random-seq (len palettes) 2 host-val)
 
 		palette-a (get palettes palette-indices.0)
-		palette-a-indices (random-seq (len palette-a) 4 (get-env "HOST"))
+		palette-a-indices (random-seq (len palette-a) 4 host-val)
 		color-namespace (apply fg-color-rgb (get palette-a palette-a-indices.0))
 		color-namespace-parens (apply fg-color-rgb (get palette-a palette-a-indices.1))
 		color-hostname (apply fg-color-rgb (get palette-a palette-a-indices.2))
+		color-prompt (apply fg-color-rgb (get palette-a palette-a-indices.3))
 
 		palette-b (get palettes palette-indices.1)
-		palette-b-indices (random-seq (len palette-b) 3 (get-env "HOST"))
-		color-prompt (apply fg-color-rgb (get palette-a palette-a-indices.3))
+		palette-b-indices (random-seq (len palette-b) 3 host-val)
 		color-pwd (apply fg-color-rgb (get palette-b palette-b-indices.0))
 		color-git-branch (apply fg-color-rgb (get palette-b palette-b-indices.1))
 		color-pwd-parens (apply fg-color-rgb (get palette-b palette-b-indices.2)))
@@ -223,7 +231,7 @@ Section: tools
 				(do
 					(set-env "SLOSH_ALT_REPO" full-path)
 					(set-env "GIT_DIR" (str full-path "/.git"))
-					(set-env "GIT_WORK_TREE" (get-env "PWD"))))))
+					(set-env "GIT_WORK_TREE" (env "PWD"))))))
 		(#t (err "Takes 0 arguments to leave altrepo and 1 argument for path to altrepo"))))
 
 
