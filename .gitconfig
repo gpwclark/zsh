@@ -56,7 +56,7 @@
 	logsha = "log --format=format:\"%C(auto)%H %C(green)%aN%Creset %s\""
 	branch-activity = "!sh -c 'git log -n1 --pretty=format:\"%aI%d\n\" $1 --' -"
 	rank = shortlog -s -n --no-merges
-	bough = branch --sort=committerdate 
+	bsort = branch --sort=committerdate
 [color]
 	ui = auto
 [init]
