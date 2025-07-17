@@ -11,7 +11,7 @@ if [[ -f ~/.recordpid ]]; then
     # installed whisper with uv
     /home/price/.local/bin/whisper "${file}" --threads 32 --language English --task transcribe --output_dir $file_dirname --output_format txt --verbose False
     echo "$fullpath_no_extension.txt"
-    cat "$fullpath_no_extension.txt" | tr -d "\n" | xclip -selection c
+    cat "$fullpath_no_extension.txt" | xclip -selection c
     # JIC
     sleep 0.1
     rm -f ~/.recordpid

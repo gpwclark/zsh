@@ -157,7 +157,8 @@ Section: user-shell
 ;; (def tst-hash {:key1  "val one" 'key2 "val two" "key3" "val three" \S "val S"})
 (defn __prompt ()
 	(let    (device-specific-seeds {"hiemal"  "All solutions have problems and all problems have solutions!"
-					"brumal" "brrr!"}
+					"brumal" "brrr!"
+					"frostig" "Not frosting!"}
 		host-val (get-hostname)
 		seed-append (get device-specific-seeds host-val)
 		host-val (if (nil? seed-append) host-val (str seed-append host-val))
