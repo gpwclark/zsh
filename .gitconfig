@@ -26,8 +26,6 @@
 	files-on-branch = "!f() {\
 		git ls-tree -r $1 --name-only;\
 		};f"
-	sortcomm = branch --remote --no-merged=HEAD --sort=-committerdate
-	track = ls-tree -r master --name-only
 	track-all = log --pretty=format: --name-only --diff-filter=A | sort - | sed '/^$/d'
 	wow = log --pretty=format:\"%h %s\" --graph
 	change-commits = "!f() { VAR=$1; OLD=$2; NEW=$3; shift 3; git filter-branch --env-filter \"if [[ $`echo $VAR` = \\\"$OLD\\\" ]]; then export $VAR=\\\"$NEW\\\"; fi\" $@; }; f "
@@ -57,6 +55,10 @@
 	branch-activity = "!sh -c 'git log -n1 --pretty=format:\"%aI%d\n\" $1 --' -"
 	rank = shortlog -s -n --no-merges
 	bsort = branch --sort=committerdate
+	sortcomm = branch --remote --no-merged=HEAD --sort=-committerdate
+	track = ls-tree -r master --name-only
+	pob = "!git push origin \"$(git rev-parse --abbrev-ref HEAD)\""
+	clast = "!git co \"$(echo ${LAST_BRANCH})\""
 [color]
 	ui = auto
 [init]

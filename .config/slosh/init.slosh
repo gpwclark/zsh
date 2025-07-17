@@ -51,8 +51,14 @@ Section: user-shell
 
 (defn parse-git-branch () (let (branch ($sh "git rev-parse --abbrev-ref HEAD 2>/dev/null"))
 	(if (= branch "")
-		(str "")
-		(do $(export BRANCH_NAME=~branch)
+		(do (set-env "BRANCH_NAME" "") (unset-env "LAST_BRANCH") "")
+		(do
+		    (when (and ;; branch provided IS new
+				(not (= branch (env "BRANCH_NAME")))
+				;; branch provided is not equal to last
+				(not (= branch (env "BRANCH_NAME"))))
+			    (set-env "LAST_BRANCH" (env "BRANCH_NAME")))
+		    (set-env "BRANCH_NAME" branch)
 		    (str ": " branch)))))
 
 (defn get-pwd ()
@@ -150,7 +156,8 @@ Section: user-shell
 (def *ns* "SLOSH")
 ;; (def tst-hash {:key1  "val one" 'key2 "val two" "key3" "val three" \S "val S"})
 (defn __prompt ()
-	(let    (device-specific-seeds {"hiemal"  "All solutions have problems and all problems have solutions!"}
+	(let    (device-specific-seeds {"hiemal"  "All solutions have problems and all problems have solutions!"
+					"brumal" "brrr!"}
 		host-val (get-hostname)
 		seed-append (get device-specific-seeds host-val)
 		host-val (if (nil? seed-append) host-val (str seed-append host-val))
