@@ -4,6 +4,8 @@
 ;; *** I highly recommend using vcsh and mr to manage [all your (repos/dotfiles) ***
 (prn (version))
 
+(def *git-prompt-features* (str))
+
 ;;;; Common imports and env setup.
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; load the core lib
@@ -50,6 +52,7 @@ Section: user-shell
 
 
 (defn parse-git-branch () (let (branch ($sh "git rev-parse --abbrev-ref HEAD 2>/dev/null"))
+	(str-push! *git-prompt-features* "\n - LAST BRANCH AWARE: LAST_BRANCH env var has value of branch last checked out.")
 	(if (= branch "")
 		(do (set-env "BRANCH_NAME" "") (unset-env "LAST_BRANCH") "")
 		(do
@@ -67,10 +70,13 @@ Section: user-shell
 (defn set-prompt-tail (last-status color-prompt)
     (let (debug (if (str-contains (version) "debug") "[DEBUG]" "")
          status (if (= last-status 0) "" (str *fg-red* "(" last-status ")" *fg-default*))
-	 alt-work-tree (if (nil? (env "SLOSH_ALT_REPO")) "" (str "\n" *fg-red* "(altrepo): " (env "SLOSH_ALT_REPO") *fg-default*)))
+	 alt-repo-val (env "SLOSH_ALT_REPO")
+	 alt-work-tree (if (or (nil? alt-repo-val) (= "" (str-trim alt-repo-val))) "" (str "\n" *fg-red* "(altrepo): " (env "SLOSH_ALT_REPO") *fg-default*)))
     (if (= *euid* 0)
         (str *fg-red* alt-work-tree status "\n" *fg-red* debug "λ #" *fg-default* " ")
         (str color-prompt alt-work-tree status "\n" color-prompt debug "λ >" *fg-default* " "))))
+
+(str-push! *git-prompt-features* " - ALTREPO: adds a line to the command prompt when an altrepo's git dir is being used, indicating the current working directory is not using .git to inform the git cmd.")
 
 #%
 Usage: (file-to-str "/path/to/file")
@@ -155,10 +161,18 @@ Section: user-shell
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (def *ns* "SLOSH")
 ;; (def tst-hash {:key1  "val one" 'key2 "val two" "key3" "val three" \S "val S"})
+
+#% Usage: ~internal usage~
+
+Current set of git integrations:
+${git-prompt-features}
+
+Section: tools
+%#
 (defn __prompt ()
 	(let    (device-specific-seeds {"hiemal"  "All solutions have problems and all problems have solutions!"
 					"brumal" "brrr!"
-					"frostig" "Not frosting!"}
+					"frostig" "gen2"}
 		host-val (get-hostname)
 		seed-append (get device-specific-seeds host-val)
 		host-val (if (nil? seed-append) host-val (str seed-append host-val))
@@ -176,7 +190,16 @@ Section: user-shell
 		palette-b-indices (random-seq (len palette-b) 3 host-val)
 		color-pwd (apply fg-color-rgb (get palette-b palette-b-indices.0))
 		color-git-branch (apply fg-color-rgb (get palette-b palette-b-indices.1))
-		color-pwd-parens (apply fg-color-rgb (get palette-b palette-b-indices.2)))
+		color-pwd-parens (apply fg-color-rgb (get palette-b palette-b-indices.2))
+		git-prompt (parse-git-branch)
+		__ (str-push! *git-prompt-features* "\n - BRANCH AWARE: Display the current branch in prompt and set BRANCH NAME env var.")
+		git-prompt (if (and (not (= git-prompt ""))
+				(str-contains
+					(str-lower ($sh "git stash list --date=relative | head -n 1"))
+					"pop"))
+				(str *fg-red* ": ~¡¡CHECK STASH!!~" *fg-default* git-prompt)
+				git-prompt)
+		__ (str-push! *git-prompt-features* "\n - STASH ALERT: If most recent stash message contains the word pop (grep -i) display on prompt"))
 	(str
 	    color-namespace-parens "["
 	    color-namespace *ns*
@@ -186,7 +209,7 @@ Section: user-shell
 	    color-pwd-parens "("
 	    color-pwd (str-trim! (get-pwd))
 	    color-pwd-parens ")"
-	    color-git-branch (parse-git-branch)
+	    color-git-branch git-prompt
 	    (set-prompt-tail *last-status* color-prompt))))
 
 (sh "alias ls='/bin/ls --color -F'")
@@ -223,10 +246,13 @@ these are local only so no other users of the repo will see you have added lines
 the altrepo to have files that the main repo ignores. Similarly putting a `**` type rule in the altrepo
 so it ignores all the files in the mainrepo is not a bad idea.
 
+
 * note!!! might be smarter to just do this with bare repos... Wouldn't be hard to bootstrap a little
 system to do so. Create a ~/.local/share directory and store git bare repos there, don't necessarily
 need them. Could also add some functions to help manage what the corresponding altrepo even is.
 Hopefully mr can help with this.
+* note!!! this feature should be mentioned in the environment variable *git-prompt-features* present
+in the (doc 'git) output.
 
 Section: tools
 %#
