@@ -51,16 +51,19 @@ Section: user-shell
                     (str x (str-trim y) \newline))))))
 
 
-(defn parse-git-branch () (let (branch ($sh "git rev-parse --abbrev-ref HEAD 2>/dev/null"))
+(defn parse-git-branch ()
+	(let (branch ($sh "git rev-parse --abbrev-ref HEAD 2>/dev/null")
+			branch-name (env "BRANCH_NAME")
+			branch-name (if (nil? branch-name) "" branch-name))
 	(str-push! *git-prompt-features* "\n - LAST BRANCH AWARE: LAST_BRANCH env var has value of branch last checked out.")
 	(if (= branch "")
 		(do (set-env "BRANCH_NAME" "") (unset-env "LAST_BRANCH") "")
 		(do
 		    (when (and ;; branch provided IS new
-				(not (= branch (env "BRANCH_NAME")))
+				(not (= branch branch-name))
 				;; branch provided is not equal to last
-				(not (= branch (env "BRANCH_NAME"))))
-			    (set-env "LAST_BRANCH" (env "BRANCH_NAME")))
+				(not (= branch branch-name)))
+			    (set-env "LAST_BRANCH" branch-name))
 		    (set-env "BRANCH_NAME" branch)
 		    (str ": " branch)))))
 
@@ -173,6 +176,7 @@ Section: tools
 	(let    (device-specific-seeds {"hiemal"  "All solutions have problems and all problems have solutions!"
 					"brumal" "brrr!"
 					"frostig" "gen2"}
+		flox-val (env "FLOX_PROMPT_ENVIRONMENTS")
 		host-val (get-hostname)
 		seed-append (get device-specific-seeds host-val)
 		host-val (if (nil? seed-append) host-val (str seed-append host-val))
@@ -187,30 +191,34 @@ Section: tools
 		color-prompt (apply fg-color-rgb (get palette-a palette-a-indices.3))
 
 		palette-b (get palettes palette-indices.1)
-		palette-b-indices (random-seq (len palette-b) 3 host-val)
+		palette-b-indices (random-seq (len palette-b) 4 host-val)
 		color-pwd (apply fg-color-rgb (get palette-b palette-b-indices.0))
 		color-git-branch (apply fg-color-rgb (get palette-b palette-b-indices.1))
 		color-pwd-parens (apply fg-color-rgb (get palette-b palette-b-indices.2))
 		git-prompt (parse-git-branch)
 		__ (str-push! *git-prompt-features* "\n - BRANCH AWARE: Display the current branch in prompt and set BRANCH NAME env var.")
+		__ (str-push! *git-prompt-features* "\n - FLOX AWARE: Display the current flox environment(s) vi FLOX_PROMPT_ENVIRONMENTs var.")
 		git-prompt (if (and (not (= git-prompt ""))
 				(str-contains
 					(str-lower ($sh "git stash list --date=relative | head -n 1"))
 					"pop"))
 				(str *fg-red* ": ~¡¡CHECK STASH!!~" *fg-default* git-prompt)
 				git-prompt)
-		__ (str-push! *git-prompt-features* "\n - STASH ALERT: If most recent stash message contains the word pop (grep -i) display on prompt"))
+		__ (str-push! *git-prompt-features* "\n - STASH ALERT: If most recent stash message contains the word pop (grep -i) display on prompt")
+		color-pwd-parens (apply fg-color-rgb (get palette-b palette-b-indices.2))
+		color-flox-val (apply fg-color-rgb (get palette-b palette-b-indices.3)))
 	(str
-	    color-namespace-parens "["
-	    color-namespace *ns*
-	    color-namespace-parens  "]"
-	    color-namespace ":"
-	    color-hostname *hostname* ": "
-	    color-pwd-parens "("
-	    color-pwd (str-trim! (get-pwd))
-	    color-pwd-parens ")"
+		(when (not (nil? flox-val)) (str "\n[ " color-flox-val flox-val " ]\n"))
+		color-namespace-parens "["
+		color-namespace *ns*
+		color-namespace-parens  "]"
+		color-namespace ":"
+		color-hostname *hostname* ": "
+		color-pwd-parens "("
+		color-pwd (str-trim! (get-pwd))
+		color-pwd-parens ")"
 	    color-git-branch git-prompt
-	    (set-prompt-tail *last-status* color-prompt))))
+		(set-prompt-tail *last-status* color-prompt))))
 
 (sh "alias ls='/bin/ls --color -F'")
 (sh "alias ll='/bin/ls --color -Flathr'")
