@@ -58,6 +58,8 @@
 	sortcomm = branch --remote --no-merged=HEAD --sort=-committerdate
 	track = ls-tree -r master --name-only
 	pob = "!git push origin \"$(git rev-parse --abbrev-ref HEAD)\""
+	pub = "!git pull origin \"$(git rev-parse --abbrev-ref HEAD)\""
+	pubr = "!git pull --rebase origin \"$(git rev-parse --abbrev-ref HEAD)\""
 	clast = "!git co \"$(echo ${LAST_BRANCH})\""
 [color]
 	ui = auto
