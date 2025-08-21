@@ -46,6 +46,7 @@
 	addmod = "!f() {\
 		git status | grep -iE '.*modified.*|.*deleted.*' | tr -s '[[:blank:]]' | cut -d' ' -f2 | xargs git add;\
 		};f"
+	st = "status"
 	cara = commit --amend --reset-author
 	all-files = ls-tree --name-only -r
 	files-since-ever = "!f() {\
@@ -54,7 +55,7 @@
 	logsha = "log --format=format:\"%C(auto)%H %C(green)%aN%Creset %s\""
 	branch-activity = "!sh -c 'git log -n1 --pretty=format:\"%aI%d\n\" $1 --' -"
 	rank = shortlog -s -n --no-merges
-	bsort = branch --sort=committerdate
+	bsort = branch --sort=-committerdate
 	sortcomm = branch --remote --no-merged=HEAD --sort=-committerdate
 	track = ls-tree -r master --name-only
 	pob = "!git push origin \"$(git rev-parse --abbrev-ref HEAD)\""

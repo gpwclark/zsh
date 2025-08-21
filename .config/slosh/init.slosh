@@ -23,6 +23,20 @@
 		(prn "load-path*:" *load-path*)))
 
 
+(when (= :linux (platform))
+	(let (file-name (str (temp-dir) "/twenty-twenty-twenty-timer.pid")
+	      file-written (fs-exists? file-name))
+	      (if file-written 
+		(do
+			(prn "File Exists"))
+		(do
+			(prn "File does not exist")
+			(let (file (fopen file-name :create :truncate)
+			[out pid] $(systemd-run --user --on-boot=1200 --on-unit-active=1200 /bin/notify-send "20/20/20 RULE" "Every 20 minutes look at something 20 ft away for 20 seconds\nEvery 20 minutes look at something 20 ft away for 20 seconds\nEvery 20 minutes look at something 20 ft away for 20 seconds\nEvery 20 minutes look at something 20 ft away for 20 seconds\nEvery 20 minutes look at something 20 ft away for 20 seconds\nEvery 20 minutes look at something 20 ft away for 20 seconds\nEvery 20 minutes look at something 20 ft away for 20 seconds\n" -t 20000 :>))
+				
+				(defer (fclose file))
+				(fprn file pid))))))
+
 (when (fs-exists? so-lush)
 	(do
         (load "shell-docs.slosh")
@@ -137,8 +151,7 @@ Section: user-shell
     (let (fg-color-vec (vec *fg-default* *fg-red* *fg-green* *fg-yellow* *fg-blue* *fg-magenta* *fg-cyan* *fg-white*)
 		random-vec (random-seq (len fg-color-vec) count seed)
 		num (% random-vec.0 (len fg-color-vec))
-		color fg-color-vec.~num
-		)
+		color fg-color-vec.~num)
 		(prn (type num))
         (str color string *fg-default*)))
 
@@ -146,6 +159,8 @@ Section: user-shell
 ;;;; Custom imports
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;(panic-display (str-trim (file-to-str "/etc/hostname")))
+(load "secrets.slosh")
+(import secrets)
 (def *hostname* (str-trim (file-to-str "/etc/hostname")))
 (def *hostname-secrets* (str *hostname* "-secrets"))
 (def *hostname-file* (str "~/.config/slosh/" *hostname* ".slosh"))
@@ -156,8 +171,6 @@ Section: user-shell
 (def *hostname-secrets-sym* (->sym *hostname*))
 (import *hostname-sym*)
 (import *hostname-secrets-sym*)
-(load "secrets.slosh")
-(import secrets)
 
 
 ;;;; Prompt and aliases
@@ -208,7 +221,7 @@ Section: tools
 		color-pwd-parens (apply fg-color-rgb (get palette-b palette-b-indices.2))
 		color-flox-val (apply fg-color-rgb (get palette-b palette-b-indices.3)))
 	(str
-		(when (not (nil? flox-val)) (str "\n[ " color-flox-val flox-val " ]\n"))
+		(if (not (str-empty? flox-val)) (str "\n[[ " color-flox-val flox-val " ]]\n") "")
 		color-namespace-parens "["
 		color-namespace *ns*
 		color-namespace-parens  "]"
