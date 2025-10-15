@@ -714,6 +714,11 @@ export PATH=$PATH:~/.local/share/JetBrains/Toolbox/bin
 export ECLIPSE_HOME=/usr/lib/eclipse
 # }}}
 
+
+# some systemd aliases {{{
+source ~/.config/so-lush/zsh/systemd.sh
+# }}}
+
 # syntax highlight config {{{
 #duplicate line but must be above all issues uses of ZSH_HIGHLIGHT*
 # source /home/price/.zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
@@ -782,3 +787,6 @@ if [ -f '/home/price/Downloads/gcloud-api/google-cloud-sdk/path.zsh.inc' ]; then
 
 # The next line enables shell command completion for gcloud.
 if [ -f '/home/price/Downloads/gcloud-api/google-cloud-sdk/completion.zsh.inc' ]; then . '/home/price/Downloads/gcloud-api/google-cloud-sdk/completion.zsh.inc'; fi
+
+# Turso
+export PATH="$PATH:/Users/price/.turso"
