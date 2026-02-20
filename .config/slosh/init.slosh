@@ -163,14 +163,18 @@ Section: user-shell
 (import secrets)
 (def *hostname* (str-trim (file-to-str "/etc/hostname")))
 (def *hostname-secrets* (str *hostname* "-secrets"))
-(def *hostname-file* (str "~/.config/slosh/" *hostname* ".slosh"))
-(def *hostname-secrets-file* (str "~/.config/slosh/" *hostname-secrets* ".slosh"))
+;;(def *hostname-file* (str "~/.config/slosh/" *hostname* ".slosh"))
+;;(def *hostname-secrets-file* (str "~/.config/slosh/" *hostname-secrets* ".slosh"))
+(def *hostname-file* (str *hostname* ".slosh"))
+(def *hostname-secrets-file* (str *hostname-secrets* ".slosh"))
 (load *hostname-file*)
 (load *hostname-secrets-file*)
 (def *hostname-sym* (->sym *hostname*))
 (def *hostname-secrets-sym* (->sym *hostname*))
 (import *hostname-sym*)
 (import *hostname-secrets-sym*)
+(import hiemal)
+(prn "hostname: " *hostname-sym*)
 
 
 ;;;; Prompt and aliases

@@ -1,4 +1,5 @@
 (with-ns hiemal
+
 ;; mac
 #%
 the best
@@ -13,4 +14,24 @@ Section: hiemal
 	(let ([pid, st-in] (sh :< "pbcopy"))
 		(str-trim! val)
 		(str-trim! val)
-		(fpr st-in val)))))
+		(fpr st-in val))))
+
+#%
+  # Check if it's running
+  launchctl list | grep nanoclaw
+
+  # Stop it
+  launchctl unload ~/Library/LaunchAgents/com.nanoclaw.plist
+
+  # Start it
+  launchctl load ~/Library/LaunchAgents/com.nanoclaw.plist
+
+  # Restart it (force kill + relaunch)
+  launchctl kickstart -k gui/$(id -u)/com.nanoclaw
+
+  # View logs
+  tail -f logs/nanoclaw.log
+
+Section: sys-docs
+%#
+(def launchctl nil))
