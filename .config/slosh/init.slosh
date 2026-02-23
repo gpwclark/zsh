@@ -4,6 +4,11 @@
 ;; *** I highly recommend using vcsh and mr to manage [all your (repos/dotfiles) ***
 (prn (version))
 
+#%
+Accumulator string describing active git prompt integrations.
+
+Section: user-config
+%#
 (def *git-prompt-features* (str))
 
 ;;;; Common imports and env setup.
@@ -16,6 +21,11 @@
 (load "sh-color.slosh")
 (load "color-palette.slosh")
 
+#%
+Path to the so-lush config directory for additional slosh scripts.
+
+Section: user-config
+%#
 (def so-lush (str (env "HOME") "/.config/so-lush/slosh/"))
 (when (fs-exists? so-lush)
 	(do
@@ -133,20 +143,36 @@ Section: user-shell
                 $(find $PWD -iname $find-str)))
 |#
 
+#%
+Usage: (str-str-rep given)
+
+Debug macro that prints a string representation with ":>" appended.
+
+Section: user-shell
+%#
 ;; TODO trying to figure out how to make the body of get-hostname a macro
 (defmacro str-str-rep (given)
 	(let (new-given `(cons ~given ":>"))
 	`(prn "str " ~new-given)))
 
+#%
+Usage: (get-hostname)
+
+Returns the machine's hostname by reading /etc/hostname.
+
+Section: user-shell
+%#
 (defn get-hostname ()
     (let ([pid, out] $(cat /etc/hostname :> 2>&1))
         (iter::reduce (iter::iter out) "" (fn (x y) (if (= (len x) 0) (str x (str-trim y)) (str x (str-trim y) \newline))))))
 
+#%
+Usage: (colorize-rand string seed count)
 
-;; want my "random colorizer like before"
-;; want to get a nice color pallet like:
-;; >>(fg-color-rgb 128 128 128)
-;; and only pick colors that go together.
+Colorize a string with a pseudo-random terminal color selected from the basic ANSI palette.
+
+Section: user-shell
+%#
 (defn colorize-rand (string seed count)
     (let (fg-color-vec (vec *fg-default* *fg-red* *fg-green* *fg-yellow* *fg-blue* *fg-magenta* *fg-cyan* *fg-white*)
 		random-vec (random-seq (len fg-color-vec) count seed)
@@ -161,15 +187,45 @@ Section: user-shell
 ;;(panic-display (str-trim (file-to-str "/etc/hostname")))
 (load "secrets.slosh")
 (import secrets)
+#%
+Current machine's hostname read from /etc/hostname.
+
+Section: user-config
+%#
 (def *hostname* (str-trim (file-to-str "/etc/hostname")))
+#%
+Name of the hostname-specific secrets module.
+
+Section: user-config
+%#
 (def *hostname-secrets* (str *hostname* "-secrets"))
 ;;(def *hostname-file* (str "~/.config/slosh/" *hostname* ".slosh"))
 ;;(def *hostname-secrets-file* (str "~/.config/slosh/" *hostname-secrets* ".slosh"))
+#%
+Filename for hostname-specific configuration.
+
+Section: user-config
+%#
 (def *hostname-file* (str *hostname* ".slosh"))
+#%
+Filename for hostname-specific secrets.
+
+Section: user-config
+%#
 (def *hostname-secrets-file* (str *hostname-secrets* ".slosh"))
 (load *hostname-file*)
 (load *hostname-secrets-file*)
+#%
+Symbol for the hostname namespace, used with import.
+
+Section: user-config
+%#
 (def *hostname-sym* (->sym *hostname*))
+#%
+Symbol for the hostname secrets namespace, used with import.
+
+Section: user-config
+%#
 (def *hostname-secrets-sym* (->sym *hostname*))
 (import *hostname-sym*)
 (import *hostname-secrets-sym*)

@@ -1,25 +1,152 @@
 (with-ns color-palette
+
+#%
+RGB color palette inspired by sunset and fire tones.
+
+Section: theming
+%#
 	(def palette-sunset-fire (vec (vec 75 0 130) (vec 106 13 173) (vec 138 43 226) (vec 165 55 253) (vec 199 21 133) (vec 219 39 119) (vec 239 71 111) (vec 255 94 98) (vec 255 128 96) (vec 255 154 102) (vec 255 183 119) (vec 255 209 145)))
+
+#%
+RGB color palette inspired by deep ocean blues.
+
+Section: theming
+%#
 	(def palette-ocean-depths (vec (vec 0 7 45) (vec 0 24 72) (vec 0 47 108) (vec 0 72 144) (vec 0 96 175) (vec 0 119 200) (vec 0 144 224) (vec 0 168 243) (vec 64 192 255) (vec 114 210 255) (vec 154 226 255) (vec 194 242 255)))
+
+#%
+RGB color palette inspired by misty forest greens.
+
+Section: theming
+%#
 	(def palette-forest-mist (vec (vec 10 40 20) (vec 20 60 30) (vec 30 80 40) (vec 40 100 50) (vec 50 120 60) (vec 70 140 80) (vec 90 160 100) (vec 110 180 120) (vec 130 200 140) (vec 150 215 160) (vec 170 230 180) (vec 190 245 200)))
+
+#%
+RGB color palette inspired by autumn leaf colors.
+
+Section: theming
+%#
 	(def palette-autumn-leaves (vec (vec 139 69 19) (vec 160 82 45) (vec 184 94 47) (vec 205 104 49) (vec 218 117 51) (vec 230 130 53) (vec 240 145 55) (vec 245 160 65) (vec 250 175 75) (vec 255 190 85) (vec 255 205 95) (vec 255 220 105)))
+
+#%
+RGB color palette inspired by cosmic nebula purples.
+
+Section: theming
+%#
 	(def palette-cosmic-nebula (vec (vec 25 0 51) (vec 38 0 77) (vec 51 0 102) (vec 77 0 153) (vec 102 0 204) (vec 127 0 255) (vec 153 51 255) (vec 178 102 255) (vec 204 153 255) (vec 229 204 255) (vec 242 229 255) (vec 250 242 255)))
+
+#%
+RGB color palette inspired by warm desert sand tones.
+
+Section: theming
+%#
 	(def palette-desert-sands (vec (vec 87 65 47) (vec 110 85 60) (vec 133 105 73) (vec 156 125 86) (vec 179 145 99) (vec 202 165 112) (vec 218 180 127) (vec 234 195 142) (vec 244 210 167) (vec 250 225 192) (vec 253 235 217) (vec 255 245 235)))
+
+#%
+RGB color palette inspired by aurora borealis.
+
+Section: theming
+%#
 	(def palette-northern-lights (vec (vec 0 0 40) (vec 0 40 80) (vec 0 80 120) (vec 0 120 140) (vec 0 160 160) (vec 0 200 180) (vec 0 240 200) (vec 80 255 180) (vec 120 255 160) (vec 160 255 140) (vec 200 255 120) (vec 240 255 100)))
+
+#%
+RGB color palette inspired by cherry blossom pinks.
+
+Section: theming
+%#
 	(def palette-cherry-blossom (vec (vec 94 48 60) (vec 130 66 83) (vec 166 84 106) (vec 194 102 125) (vec 217 127 150) (vec 235 152 175) (vec 247 177 200) (vec 252 202 220) (vec 254 217 232) (vec 255 232 242) (vec 255 242 248) (vec 255 250 253)))
+
+#%
+RGB color palette based on classic terminal ANSI colors.
+
+Section: theming
+%#
 	(def palette-classic-terminal (vec (vec 0 0 0) (vec 205 49 49) (vec 13 188 121) (vec 229 229 16) (vec 36 114 200) (vec 188 63 188) (vec 17 168 205) (vec 229 229 229) (vec 102 102 102) (vec 241 76 76) (vec 35 209 139) (vec 245 245 67)))
+
+#%
+RGB color palette based on the Solarized Dark theme.
+
+Section: theming
+%#
 	(def palette-solarized-dark (vec (vec 0 43 54) (vec 7 54 66) (vec 88 110 117) (vec 101 123 131) (vec 131 148 150) (vec 147 161 161) (vec 238 232 213) (vec 253 246 227) (vec 181 137 0) (vec 203 75 22) (vec 220 50 47) (vec 211 54 130)))
+
+#%
+RGB color palette based on the Monokai theme.
+
+Section: theming
+%#
 	(def palette-monokai (vec (vec 39 40 34) (vec 249 38 114) (vec 166 226 46) (vec 244 191 117) (vec 102 217 239) (vec 174 129 255) (vec 249 38 189) (vec 248 248 242) (vec 117 113 94) (vec 253 151 31) (vec 230 219 116) (vec 189 147 249)))
+
+#%
+RGB color palette based on the Dracula theme.
+
+Section: theming
+%#
 	(def palette-dracula (vec (vec 40 42 54) (vec 68 71 90) (vec 248 248 242) (vec 98 114 164) (vec 139 233 253) (vec 80 250 123) (vec 255 184 108) (vec 255 121 198) (vec 189 147 249) (vec 255 85 85) (vec 241 250 140) (vec 98 114 164)))
+
+#%
+RGB color palette based on the Nord theme.
+
+Section: theming
+%#
 	(def palette-nord (vec (vec 46 52 64) (vec 59 66 82) (vec 67 76 94) (vec 76 86 106) (vec 216 222 233) (vec 229 233 240) (vec 236 239 244) (vec 143 188 187) (vec 136 192 208) (vec 129 161 193) (vec 94 129 172) (vec 180 142 173)))
+
+#%
+RGB color palette based on the Gruvbox theme.
+
+Section: theming
+%#
 	(def palette-gruvbox (vec (vec 40 40 40) (vec 204 36 29) (vec 152 151 26) (vec 215 153 33) (vec 69 133 136) (vec 177 98 134) (vec 104 157 106) (vec 168 153 132) (vec 146 131 116) (vec 251 73 52) (vec 184 187 38) (vec 250 189 47)))
+
+#%
+RGB color palette based on the Tokyo Night theme.
+
+Section: theming
+%#
 	(def palette-tokyo-night (vec (vec 26 27 38) (vec 36 40 59) (vec 192 202 245) (vec 122 162 247) (vec 125 207 255) (vec 187 154 247) (vec 158 206 106) (vec 224 175 104) (vec 247 118 142) (vec 255 158 100) (vec 115 218 202) (vec 169 177 214)))
+
+#%
+RGB color palette with neon cyberpunk colors.
+
+Section: theming
+%#
 	(def palette-cyberpunk (vec (vec 0 0 0) (vec 255 0 255) (vec 0 255 255) (vec 255 0 128) (vec 0 255 0) (vec 255 255 0) (vec 128 0 255) (vec 0 128 255) (vec 255 128 0) (vec 128 255 0) (vec 255 0 192) (vec 0 192 255)))
+
+#%
+RGB color palette with green-on-black Matrix style.
+
+Section: theming
+%#
 	(def palette-matrix (vec (vec 0 0 0) (vec 0 24 0) (vec 0 48 0) (vec 0 72 0) (vec 0 96 0) (vec 0 120 0) (vec 0 144 0) (vec 0 168 0) (vec 0 192 0) (vec 0 216 0) (vec 0 240 0) (vec 0 255 0)))
+
+#%
+RGB color palette with warm amber monochrome tones.
+
+Section: theming
+%#
 	(def palette-amber-monochrome (vec (vec 0 0 0) (vec 51 34 0) (vec 102 68 0) (vec 153 102 0) (vec 204 136 0) (vec 255 170 0) (vec 255 187 51) (vec 255 204 102) (vec 255 221 153) (vec 255 238 204) (vec 255 247 229) (vec 255 255 240)))
+
+#%
+RGB color palette with maximum contrast primary colors.
+
+Section: theming
+%#
 	(def palette-high-contrast (vec (vec 0 0 0) (vec 255 255 255) (vec 255 0 0) (vec 0 255 0) (vec 0 0 255) (vec 255 255 0) (vec 255 0 255) (vec 0 255 255) (vec 192 192 192) (vec 128 128 128) (vec 255 165 0) (vec 128 0 128)))
+
+#%
+RGB color palette based on retro CGA display colors.
+
+Section: theming
+%#
 	(def palette-retro-cga (vec (vec 0 0 0) (vec 0 0 170) (vec 0 170 0) (vec 0 170 170) (vec 170 0 0) (vec 170 0 170) (vec 170 85 0) (vec 170 170 170) (vec 85 85 85) (vec 85 85 255) (vec 85 255 85) (vec 85 255 255) (vec 255 85 85) (vec 255 85 255) (vec 255 255 85) (vec 255 255 255)))
 
+#%
+Usage: (make-palettes)
+
+Returns a vector of all available color palettes.
+
+Section: theming
+%#
 	(defn make-palettes ()
 		(vec
 			palette-sunset-fire
